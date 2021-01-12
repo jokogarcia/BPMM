@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'bibmamo';
+  title = 'Biblioteca Popular Mariano Moreno (La Rioja)';
 }
