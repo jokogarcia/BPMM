@@ -12,7 +12,8 @@ import { AdminHomeComponent } from './components/admin-home/admin-home.component
 import { HomeComponent } from './components/home/home.component';
 import { NavHeaderComponent } from './components/nav-header/nav-header.component';
 import { PhotoArticleViewComponent } from './reusable/photo-article-view/photo-article-view.component';
-import { ArticleViewComponent } from './components/article-view/article-view.component'
+import { ArticleViewComponent } from './components/article-view/article-view.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { ArticleViewComponent } from './components/article-view/article-view.com
     ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
