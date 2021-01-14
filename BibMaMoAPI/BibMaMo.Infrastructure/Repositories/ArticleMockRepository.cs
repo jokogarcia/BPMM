@@ -60,16 +60,21 @@ namespace BibMaMo.Infrastructure.Repositories
       return Task.FromResult(GetItemOrThrow(handle));
     }
 
-    public Task<IEnumerable<Article>> Get(string tags ="")
+    public Task<IEnumerable<Article>> Get()
     {
       IEnumerable<Article> articles;
-      if (string.IsNullOrEmpty(tags))
+      articles = (IEnumerable<Article>)MockRepo;
+      return Task.FromResult(articles);
+
+    }
+    public Task<IEnumerable<Article>> GetFiltered(string tags)
+    {
+
+      IEnumerable<Article> articles;
+      articles = (IEnumerable<Article>)MockRepo.FindAll(x => ItemContainsTags(tags, x));
+      if (articles.Count() == 0)
       {
-        articles = (IEnumerable<Article>)MockRepo;
-      }
-      else
-      {
-        articles = (IEnumerable<Article>)MockRepo.FindAll(x => ItemContainsTags(tags, x));
+        throw new ItemNotFoundException();
       }
       return Task.FromResult(articles);
 

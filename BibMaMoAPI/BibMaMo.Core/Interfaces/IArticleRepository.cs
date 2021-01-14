@@ -6,7 +6,8 @@ namespace BibMaMo.Core.Interfaces
 {
   public interface IArticleRepository
   {
-    Task<IEnumerable<Article>> Get(string tags="");
+    Task<IEnumerable<Article>> Get();
+    Task<IEnumerable<Article>> GetFiltered(string tags);
     Task<Article> GetSingle(string handle);
     Task Remove(string handle);
     Task<Article> Insert(Article article);

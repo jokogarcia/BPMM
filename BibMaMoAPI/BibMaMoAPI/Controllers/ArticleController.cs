@@ -17,10 +17,27 @@ namespace BibMaMo.Api.Controllers
       _repository = articleRepostitory;
     }
     [HttpGet]
-    public async Task<IActionResult> Get(string tags="")
+    public async Task<IActionResult> Get()
     {
-      var articles = await _repository.Get(tags);
+      var articles = await _repository.Get();
       return Ok(articles);
+    }
+    [HttpGet("filtered/{tags}")]
+    public async Task<IActionResult> GetFiltered(string tags)
+    {
+      if (string.IsNullOrEmpty(tags))
+      {
+        return BadRequest();
+      }
+      try
+      {
+        var articles = await _repository.GetFiltered(tags);
+        return Ok(articles);
+      }
+      catch (ItemNotFoundException)
+      {
+        return NotFound();
+      }
     }
     [HttpGet("{handle}")]
     public async Task<IActionResult> GetSingle(string handle)

@@ -57,6 +57,77 @@ namespace BibMamo.UnitTests
       Assert.True(items.Count > 0);
     }
     #endregion
+    #region GetFilteredMethodTests
+    [Fact]
+    public void GetFiltered_UnknownTagsPassed_ReturnsNotFoundResult()
+    {
+      // Act
+      var notFoundResult = _controller.GetFiltered("iojfoewm,oifwe,jne");
+      // Assert
+      Assert.IsType<NotFoundResult>(notFoundResult.Result);
+    }
+    [Fact]
+    public void GetFiltered_EmptyTagsPassed_ReturnsBadRequest()
+    {
+      // Act
+      var badRequestResult = _controller.GetFiltered("");
+      // Assert
+      Assert.IsType<BadRequestResult>(badRequestResult.Result);
+    }
+    [Fact]
+    public void GetFiltered_NullTagsPassed_ReturnsBadRequestResult()
+    {
+      // Act
+      var badRequestResult = _controller.GetFiltered(null);
+      // Assert
+      Assert.IsType<BadRequestResult>(badRequestResult.Result);
+    }
+    [Fact]
+    public void GetFiltered_ExistingTagPassed_ReturnsOkResult()
+    {
+      // Arrange
+      // Act
+      var okResult = _controller.GetFiltered("nuestros");
+      // Assert
+      Assert.IsType<OkObjectResult>(okResult.Result);
+    }
+    [Fact]
+    public void GetFiltered_ExistingTagPassed_ReturnsRightItems()
+    {
+      // Arrange
+      var testTag = "coleccion";
+      // Act
+      var okResult = _controller.GetFiltered(testTag).Result as OkObjectResult;
+      var resultValue = okResult.Value as List<Article>;
+      // Assert
+      Assert.IsType<List<Article>>(okResult.Value);
+      Assert.Null(resultValue.Find(x=>!x.Tags.Contains(testTag))); //Check that all the items contain the testTag
+    }
+    [Fact]
+    public void GetFiltered_ExistingTagsPassed_ReturnsOkResult()
+    {
+      // Arrange
+      // Act
+      var okResult = _controller.GetFiltered("nuestros,coleccion");
+      // Assert
+      Assert.IsType<OkObjectResult>(okResult.Result);
+    }
+    [Fact]
+    public void GetFiltered_ExistingTagsPassed_ReturnsRightItems()
+    {
+      // Arrange
+      var testTags = "coleccion,nuestros";
+      var testTagsArr = testTags.Split(',');
+      // Act
+      var okResult = _controller.GetFiltered(testTags).Result as OkObjectResult;
+      var resultValue = okResult.Value as List<Article>;
+      // Assert
+      Assert.IsType<List<Article>>(okResult.Value);
+      Assert.Null(resultValue.Find(x => !x.Tags.Contains(testTagsArr[0]) && !x.Tags.Contains(testTags[1]))); //Check that all the items contain at least one testTag
+    }
+    #endregion
+    
+    
     #region GetSingleMethodTests
     [Fact]
     public void GetSingle_UnknownHandlePassed_ReturnsNotFoundResult()
@@ -104,21 +175,7 @@ namespace BibMamo.UnitTests
     }
     #endregion
     #region AddMethodTests
-    //[Fact]
-    //public void Add_InvalidObjectPassed_ReturnsBadRequest()
-    //{
-    //  // Arrange
-    //  var nameMissingItem = new ShoppingItem()
-    //  {
-    //    Manufacturer = "Guinness",
-    //    Price = 12.00M
-    //  };
-    //  _controller.ModelState.AddModelError("Name", "Required");
-    //  // Act
-    //  var badResponse = _controller.Post(nameMissingItem);
-    //  // Assert
-    //  Assert.IsType<BadRequestObjectResult>(badResponse);
-    //}
+    
     [Fact]
     public void Add_ValidObjectPassed_ReturnsOkObjectResponse()
     {
