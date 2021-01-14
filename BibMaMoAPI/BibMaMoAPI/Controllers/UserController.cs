@@ -1,4 +1,5 @@
 using BibMaMo.Core.Entities;
+using BibMaMo.Core.Exceptions;
 using BibMaMo.Core.Interfaces;
 using BibMaMo.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -10,40 +11,62 @@ namespace BibMaMo.Api.Controllers
   [ApiController]
   public class UserController : ControllerBase
   {
-    IUserRepository _UserRepository;
-    public UserController(IUserRepository UserRepostitory)
+    IUserRepository _repository;
+    public UserController(IUserRepository repository)
     {
-      _UserRepository = UserRepostitory;
+      _repository = repository;
     }
     [HttpGet]
-    public async Task<IActionResult> GetUsers()
+    public async Task<IActionResult> Get(string tags = "")
     {
-      var Users = await _UserRepository.GetUsers();
+      var Users = await _repository.Get(tags);
       return Ok(Users);
     }
-    [HttpGet("/{handle}")]
-    public async Task<IActionResult> GetSingleUser(string handle)
+    [HttpGet("{handle}")]
+    public async Task<IActionResult> GetSingle(string handle)
     {
-      return Ok(await _UserRepository.GetUser(handle));
+      try
+      {
+        return Ok(await _repository.GetSingle(handle));
+      }
+      catch (ItemNotFoundException)
+      {
+        return NotFound();
+      }
     }
-    [HttpDelete("/{handle}")]
-    public async Task<IActionResult> DeleteUser(string handle)
+    [HttpDelete("{handle}")]
+    public async Task<IActionResult> Remove(string handle)
     {
-      await _UserRepository.DeleteUser(handle);
-      return Ok(null);
+      try
+      {
+        await _repository.Remove(handle);
+      }
+      catch (ItemNotFoundException)
+      {
+        return NotFound();
+      }
+      return Ok();
     }
     [HttpPost]
-    public async Task<IActionResult> InsertUser(User User)
+    public async Task<IActionResult> Insert(User User)
     {
       User.Handle = string.Empty;
-      User = await _UserRepository.AddUser(User);
+      User = await _repository.Insert(User);
       return Ok(User);
     }
     [HttpPut]
-    public async Task<IActionResult> UpdateUser(User User)
+    public async Task<IActionResult> Replace(User User)
     {
-      User = await _UserRepository.AddUser(User);
-      return Ok(User);
+      try
+      {
+        await _repository.Replace(User);
+        return Ok();
+      }
+      catch (ItemNotFoundException)
+      {
+        return NotFound();
+      }
+
     }
 
   }

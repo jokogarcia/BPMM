@@ -10,32 +10,32 @@ using Xunit;
 
 namespace BibMamo.UnitTests
 {
-  public class ArticleControllerTests
+  public class UserControllerTests
   {
-    private ArticleController _controller;
+    private UserController _controller;
 
-    Article GenerateValidArticle(string handle="")
+    User GenerateValidUser(string handle = "")
     {
-      var rnd = new Random().Next(100,10000);
-      Article testItem = new Article()
+      var rnd = new Random().Next(100, 10000);
+      User testItem = new User()
       {
-        Title = $"Test title {rnd}",
-        HtmlContent = $"<p>This is randomly generated <b>HTML</b> content id <i>{rnd}</i>",
+        FirstName = $"FakeTestName{rnd}",
+        LastName = $"FakeTestLastname{rnd}",
+        Email = $"FakeTestEmail{rnd}@example.com",
         Handle = handle,
-        MainImageUrl = $"test{rnd}.jpg",
-        Tags = $"some,tags,test,rnd{rnd}"
+        MemberId = rnd % 3 == 0 ? $"MEMBER{rnd}": ""
       };
       return testItem;
     }
     string GetValidHandleFromRepo()
     {
-      var items = (_controller.Get().Result as OkObjectResult).Value as List<Article>;
+      var items = (_controller.Get().Result as OkObjectResult).Value as List<User>;
       var randomItem = items[new Random().Next(0, items.Count - 1)];
       return randomItem.Handle;
     }
-    public ArticleControllerTests()
+    public UserControllerTests()
     {
-      _controller = new ArticleController(new ArticleMockRepository());
+      _controller = new UserController(new UserMockRepository());
     }
     #region GetAllMethodTests
     [Fact]
@@ -53,7 +53,7 @@ namespace BibMamo.UnitTests
       // Act
       var okResult = _controller.Get().Result as OkObjectResult;
       // Assert
-      var items = Assert.IsType<List<Article>>(okResult.Value);
+      var items = Assert.IsType<List<User>>(okResult.Value);
       Assert.True(items.Count > 0);
     }
     #endregion
@@ -99,8 +99,8 @@ namespace BibMamo.UnitTests
       // Act
       var okResult = _controller.GetSingle(testHandle).Result as OkObjectResult;
       // Assert
-      Assert.IsType<Article>(okResult.Value);
-      Assert.Equal(testHandle, (okResult.Value as Article).Handle);
+      Assert.IsType<User>(okResult.Value);
+      Assert.Equal(testHandle, (okResult.Value as User).Handle);
     }
     #endregion
     #region AddMethodTests
@@ -123,7 +123,7 @@ namespace BibMamo.UnitTests
     public void Add_ValidObjectPassed_ReturnsOkObjectResponse()
     {
       // Arrange
-      Article testItem = GenerateValidArticle();
+      User testItem = GenerateValidUser();
       // Act
       var createdResponse = _controller.Insert(testItem).Result;
       // Assert
@@ -133,14 +133,14 @@ namespace BibMamo.UnitTests
     public void Add_ValidObjectPassed_ReturnedResponseHasCreatedItem()
     {
       // Arrange
-      Article testItem = GenerateValidArticle();
-      var verifyableProperty = testItem.Title;
+      User testItem = GenerateValidUser();
+      var verifyableProperty = testItem.Email;
       // Act
       var createdResponse = _controller.Insert(testItem).Result as OkObjectResult;
-      var item = createdResponse.Value as Article;
+      var item = createdResponse.Value as User;
       // Assert
-      Assert.IsType<Article>(item);
-      Assert.Equal(verifyableProperty, item.Title);
+      Assert.IsType<User>(item);
+      Assert.Equal(verifyableProperty, item.Email);
       Assert.False(string.IsNullOrEmpty(item.Handle));
     }
     #endregion
@@ -149,7 +149,7 @@ namespace BibMamo.UnitTests
     public void Update_EmptyHandleObject_ReturnsNotFoundResult()
     {
       // Arrange
-      var handleMissingItem = GenerateValidArticle();
+      var handleMissingItem = GenerateValidUser();
       // Act
       var badResponse = _controller.Replace(handleMissingItem).Result;
       // Assert
@@ -159,7 +159,7 @@ namespace BibMamo.UnitTests
     public void Update_InvalidHandleObject_ReturnsNotFoundResult()
     {
       // Arrange
-      var handleMissingItem = GenerateValidArticle();
+      var handleMissingItem = GenerateValidUser();
       // Act
       var badResponse = _controller.Replace(handleMissingItem).Result;
       // Assert
@@ -169,7 +169,7 @@ namespace BibMamo.UnitTests
     public void Update_ValidObjectPassed_ReturnsOkObjectResponse()
     {
       // Arrange
-      var testItem = GenerateValidArticle(GetValidHandleFromRepo());
+      var testItem = GenerateValidUser(GetValidHandleFromRepo());
       // Act
       var createdResponse = _controller.Replace(testItem).Result;
       // Assert
@@ -207,7 +207,7 @@ namespace BibMamo.UnitTests
       // Act
       _ = _controller.Remove(existingHandle);
       // Assert
-      Assert.IsType<NotFoundResult>(_controller.GetSingle(existingHandle).Result) ;
+      Assert.IsType<NotFoundResult>(_controller.GetSingle(existingHandle).Result);
     }
     #endregion
 

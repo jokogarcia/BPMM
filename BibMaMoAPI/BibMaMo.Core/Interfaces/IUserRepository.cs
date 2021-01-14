@@ -6,9 +6,10 @@ namespace BibMaMo.Core.Interfaces
 {
   public interface IUserRepository
   {
-    Task<IEnumerable<User>> GetUsers();
-    Task<User> GetUser(string handle);
-    Task DeleteUser(string handle);
-    Task<User> AddUser(User User);
+    Task<IEnumerable<User>> Get(string tags = "");
+    Task<User> GetSingle(string handle);
+    Task Remove(string handle);
+    Task<User> Insert(User article);
+    Task Replace(User article);
   }
 }

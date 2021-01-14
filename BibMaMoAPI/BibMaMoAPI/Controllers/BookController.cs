@@ -1,9 +1,9 @@
 using BibMaMo.Core.Entities;
+using BibMaMo.Core.Exceptions;
 using BibMaMo.Core.Interfaces;
+using BibMaMo.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BibMaMo.Api.Controllers
 {
@@ -11,40 +11,62 @@ namespace BibMaMo.Api.Controllers
   [ApiController]
   public class BookController : ControllerBase
   {
-    IBookRepository _BookRepository;
-    public BookController(IBookRepository BookRepostitory)
+    IBookRepository _repository;
+    public BookController(IBookRepository repository)
     {
-      _BookRepository = BookRepostitory;
+      _repository = repository;
     }
     [HttpGet]
-    public async Task<IActionResult> GetBooks()
+    public async Task<IActionResult> Get(string tags = "")
     {
-      var Books = await _BookRepository.GetBooks();
+      var Books = await _repository.Get(tags);
       return Ok(Books);
     }
-    [HttpGet("/{handle}")]
-    public async Task<IActionResult> GetSingleBook(string handle)
+    [HttpGet("{handle}")]
+    public async Task<IActionResult> GetSingle(string handle)
     {
-      return Ok(await _BookRepository.GetBook(handle));
+      try
+      {
+        return Ok(await _repository.GetSingle(handle));
+      }
+      catch (ItemNotFoundException)
+      {
+        return NotFound();
+      }
     }
-    [HttpDelete("/{handle}")]
-    public async Task<IActionResult> DeleteBook(string handle)
+    [HttpDelete("{handle}")]
+    public async Task<IActionResult> Remove(string handle)
     {
-      await _BookRepository.DeleteBook(handle);
-      return Ok(null);
+      try
+      {
+        await _repository.Remove(handle);
+      }
+      catch (ItemNotFoundException)
+      {
+        return NotFound();
+      }
+      return Ok();
     }
     [HttpPost]
-    public async Task<IActionResult> InsertBook(Book Book)
+    public async Task<IActionResult> Insert(Book Book)
     {
       Book.Handle = string.Empty;
-      Book = await _BookRepository.AddBook(Book);
+      Book = await _repository.Insert(Book);
       return Ok(Book);
     }
     [HttpPut]
-    public async Task<IActionResult> UpdateBook(Book Book)
+    public async Task<IActionResult> Replace(Book Book)
     {
-      Book = await _BookRepository.AddBook(Book);
-      return Ok(Book);
+      try
+      {
+        await _repository.Replace(Book);
+        return Ok();
+      }
+      catch (ItemNotFoundException)
+      {
+        return NotFound();
+      }
+
     }
 
   }

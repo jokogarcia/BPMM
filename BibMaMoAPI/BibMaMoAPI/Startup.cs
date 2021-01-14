@@ -29,7 +29,9 @@ namespace BibMaMoAPI
         {
             services.AddControllers();
             services.AddSingleton<IArticleRepository, ArticleMockRepository>();
-        }
+            services.AddSingleton<IBookRepository, BookMockRepository>();
+            services.AddSingleton<IUserRepository, UserMockRepository>();
+    }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

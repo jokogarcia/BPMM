@@ -40,7 +40,7 @@ namespace BibMaMo.Infrastructure.Repositories
 
      
     }
-    public Task<Article> AddArticle(Article article)
+    public Task<Article> Insert(Article article)
     {
       article.Handle = Guid.NewGuid().ToString();
       MockRepo.Add(article);
@@ -48,19 +48,19 @@ namespace BibMaMo.Infrastructure.Repositories
       return Task.FromResult(article);
     }
 
-    public Task DeleteArticle(string handle)
+    public Task Remove(string handle)
     {
       var article = GetItemOrThrow(handle);
       MockRepo.Remove(article);
       return Task.CompletedTask;
     }
 
-    public Task<Article> GetArticle(string handle)
+    public Task<Article> GetSingle(string handle)
     {
       return Task.FromResult(GetItemOrThrow(handle));
     }
 
-    public Task<IEnumerable<Article>> GetArticles(string tags ="")
+    public Task<IEnumerable<Article>> Get(string tags ="")
     {
       IEnumerable<Article> articles;
       if (string.IsNullOrEmpty(tags))
@@ -69,7 +69,7 @@ namespace BibMaMo.Infrastructure.Repositories
       }
       else
       {
-        articles = (IEnumerable<Article>)MockRepo.FindAll(x => ArticleContainsTags(tags, x));
+        articles = (IEnumerable<Article>)MockRepo.FindAll(x => ItemContainsTags(tags, x));
       }
       return Task.FromResult(articles);
 
@@ -85,7 +85,7 @@ namespace BibMaMo.Infrastructure.Repositories
     }
 
    
-    private bool ArticleContainsTags(string tags, Article article)
+    private bool ItemContainsTags(string tags, Article article)
     {
       var tagsArr = tags.ToLower().Split(',');
       var articleTagsArr=article.Tags.ToLower().Split(',');
@@ -97,7 +97,7 @@ namespace BibMaMo.Infrastructure.Repositories
       return false;
     }
 
-    public Task UpdateArticle(Article article)
+    public Task Replace(Article article)
     {
       var oldArticle = GetItemOrThrow(article.Handle);
       var oldArticleIndex = MockRepo.IndexOf(oldArticle);
