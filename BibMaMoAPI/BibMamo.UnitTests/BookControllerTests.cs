@@ -219,6 +219,75 @@ namespace BibMamo.UnitTests
     }
     #endregion
 
+    #region GetFilteredMethodTests
+    [Fact]
+    public void GetFiltered_UnknownTagsPassed_ReturnsNotFoundResult()
+    {
+      // Act
+      var notFoundResult = _controller.GetFiltered("iojfoewm,oifwe,jne");
+      // Assert
+      Assert.IsType<NotFoundResult>(notFoundResult.Result);
+    }
+    [Fact]
+    public void GetFiltered_EmptyTagsPassed_ReturnsBadRequest()
+    {
+      // Act
+      var badRequestResult = _controller.GetFiltered("");
+      // Assert
+      Assert.IsType<BadRequestResult>(badRequestResult.Result);
+    }
+    [Fact]
+    public void GetFiltered_NullTagsPassed_ReturnsBadRequestResult()
+    {
+      // Act
+      var badRequestResult = _controller.GetFiltered(null);
+      // Assert
+      Assert.IsType<BadRequestResult>(badRequestResult.Result);
+    }
+    [Fact]
+    public void GetFiltered_ExistingTagPassed_ReturnsOkResult()
+    {
+      // Arrange
+      // Act
+      var okResult = _controller.GetFiltered("tag1");
+      // Assert
+      Assert.IsType<OkObjectResult>(okResult.Result);
+    }
+    [Fact]
+    public void GetFiltered_ExistingTagPassed_ReturnsRightItems()
+    {
+      // Arrange
+      var testTag = "tag2";
+      // Act
+      var okResult = _controller.GetFiltered(testTag).Result as OkObjectResult;
+      var resultValue = okResult.Value as List<Book>;
+      // Assert
+      Assert.IsType<List<Book>>(okResult.Value);
+      Assert.Null(resultValue.Find(x => !x.Tags.Contains(testTag))); //Check that all the items contain the testTag
+    }
+    [Fact]
+    public void GetFiltered_ExistingTagsPassed_ReturnsOkResult()
+    {
+      // Arrange
+      // Act
+      var okResult = _controller.GetFiltered("tag1,tag2");
+      // Assert
+      Assert.IsType<OkObjectResult>(okResult.Result);
+    }
+    [Fact]
+    public void GetFiltered_ExistingTagsPassed_ReturnsRightItems()
+    {
+      // Arrange
+      var testTags = "tag1,tag2";
+      var testTagsArr = testTags.Split(',');
+      // Act
+      var okResult = _controller.GetFiltered(testTags).Result as OkObjectResult;
+      var resultValue = okResult.Value as List<Book>;
+      // Assert
+      Assert.IsType<List<Book>>(okResult.Value);
+      Assert.Null(resultValue.Find(x => !x.Tags.Contains(testTagsArr[0]) && !x.Tags.Contains(testTags[1]))); //Check that all the items contain at least one testTag
+    }
+    #endregion
 
   }
 }

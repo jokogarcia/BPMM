@@ -40,18 +40,18 @@ namespace BibMaMo.Infrastructure.Repositories
 
      
     }
-    public Task<Article> Insert(Article article)
+    public Task<Article> Insert(Article item)
     {
-      article.Handle = Guid.NewGuid().ToString();
-      MockRepo.Add(article);
+      item.Handle = Guid.NewGuid().ToString();
+      MockRepo.Add(item);
       
-      return Task.FromResult(article);
+      return Task.FromResult(item);
     }
 
     public Task Remove(string handle)
     {
-      var article = GetItemOrThrow(handle);
-      MockRepo.Remove(article);
+      var item = GetItemOrThrow(handle);
+      MockRepo.Remove(item);
       return Task.CompletedTask;
     }
 
@@ -62,51 +62,51 @@ namespace BibMaMo.Infrastructure.Repositories
 
     public Task<IEnumerable<Article>> Get()
     {
-      IEnumerable<Article> articles;
-      articles = (IEnumerable<Article>)MockRepo;
-      return Task.FromResult(articles);
+      IEnumerable<Article> items;
+      items = (IEnumerable<Article>)MockRepo;
+      return Task.FromResult(items);
 
     }
     public Task<IEnumerable<Article>> GetFiltered(string tags)
     {
 
-      IEnumerable<Article> articles;
-      articles = (IEnumerable<Article>)MockRepo.FindAll(x => ItemContainsTags(tags, x));
-      if (articles.Count() == 0)
+      IEnumerable<Article> items;
+      items = (IEnumerable<Article>)MockRepo.FindAll(x => ItemContainsTags(tags, x));
+      if (items.Count() == 0)
       {
         throw new ItemNotFoundException();
       }
-      return Task.FromResult(articles);
+      return Task.FromResult(items);
 
     }
     private Article GetItemOrThrow(string handle)
     {
-      var article = MockRepo.Find(x => x.Handle.Equals(handle));
-      if(article == null)
+      var item = MockRepo.Find(x => x.Handle.Equals(handle));
+      if(item == null)
       {
         throw new ItemNotFoundException();
       }
-      return article;
+      return item;
     }
 
    
-    private bool ItemContainsTags(string tags, Article article)
+    private bool ItemContainsTags(string tags, Article item)
     {
       var tagsArr = tags.ToLower().Split(',');
-      var articleTagsArr=article.Tags.ToLower().Split(',');
+      var itemTagsArr=item.Tags.ToLower().Split(',');
       foreach(var tag in tagsArr)
       {
-        if (articleTagsArr.Contains(tag))
+        if (itemTagsArr.Contains(tag))
           return true;
       }
       return false;
     }
 
-    public Task Replace(Article article)
+    public Task Replace(Article item)
     {
-      var oldArticle = GetItemOrThrow(article.Handle);
+      var oldArticle = GetItemOrThrow(item.Handle);
       var oldArticleIndex = MockRepo.IndexOf(oldArticle);
-      MockRepo[oldArticleIndex] = article;
+      MockRepo[oldArticleIndex] = item;
       return Task.CompletedTask;
     }
   }

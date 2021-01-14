@@ -21,7 +21,7 @@ namespace BibMaMo.Infrastructure.Repositories
         MockRepo.Add(new User
         {
           Handle = x.ToString(),
-          Email = $"user{x}@fakemail.com",
+          Email = $"item{x}@fakemail.com",
           FirstName = $"User{x}First",
           LastName = $"User{x}Last]",
           MemberId = x < 5 ? string.Empty : x.ToString()
@@ -31,18 +31,18 @@ namespace BibMaMo.Infrastructure.Repositories
 
 
     }
-    public Task<User> Insert(User user)
+    public Task<User> Insert(User item)
     {
-      user.Handle = Guid.NewGuid().ToString();
-      MockRepo.Add(user);
+      item.Handle = Guid.NewGuid().ToString();
+      MockRepo.Add(item);
 
-      return Task.FromResult(user);
+      return Task.FromResult(item);
     }
 
     public Task Remove(string handle)
     {
-      var user = GetItemOrThrow(handle);
-      MockRepo.Remove(user);
+      var item = GetItemOrThrow(handle);
+      MockRepo.Remove(item);
       return Task.CompletedTask;
     }
 
@@ -51,27 +51,27 @@ namespace BibMaMo.Infrastructure.Repositories
       return Task.FromResult(GetItemOrThrow(handle));
     }
 
-    public Task<IEnumerable<User>> Get(string tags = "")
+    public Task<IEnumerable<User>> Get()
     {
-      IEnumerable<User> users;
-      users = (IEnumerable<User>)MockRepo; //Tags is ignored for users
-      return Task.FromResult(users);
+      IEnumerable<User> items;
+      items = (IEnumerable<User>)MockRepo; 
+      return Task.FromResult(items);
 
     }
     private User GetItemOrThrow(string handle)
     {
-      var user = MockRepo.Find(x => x.Handle.Equals(handle));
-      if (user == null)
+      var item = MockRepo.Find(x => x.Handle.Equals(handle));
+      if (item == null)
       {
         throw new ItemNotFoundException();
       }
-      return user;
+      return item;
     }
-    public Task Replace(User user)
+    public Task Replace(User item)
     {
-      var oldUser = GetItemOrThrow(user.Handle);
+      var oldUser = GetItemOrThrow(item.Handle);
       var oldUserIndex = MockRepo.IndexOf(oldUser);
-      MockRepo[oldUserIndex] = user;
+      MockRepo[oldUserIndex] = item;
       return Task.CompletedTask;
     }
   }

@@ -34,7 +34,42 @@ namespace BibMaMo.Infrastructure.Repositories
           Summary="Lorem ipsum doloor."
         });
       }
-      
+      for (int x = 10; x < 15; x++)
+      {
+        MockRepo.Add(new Book
+        {
+          Handle = x.ToString(),
+          Author = $"Autor {x}",
+          Title = $"Libro {x}",
+          Tags = "tag1",
+          Descriptor = "cuentos",
+          Edition = 2000 + x,
+          ISBN = Guid.NewGuid().ToString(),
+          Pages = 700 + x * 17,
+          InventoryId = $"INV{(300 + x)}",
+          Publisher = x % 2 == 0 ? "Alfaguara" : "Kapeluz",
+          Section = x % 2 == 0 ? "Seccion A" : "Seccion B",
+          Summary = "Lorem ipsum doloor."
+        });
+      }
+      for (int x = 15; x < 20; x++)
+      {
+        MockRepo.Add(new Book
+        {
+          Handle = x.ToString(),
+          Author = $"Autor {x}",
+          Title = $"Libro {x}",
+          Tags = "tag2",
+          Descriptor = "poesia",
+          Edition = 2000 + x,
+          ISBN = Guid.NewGuid().ToString(),
+          Pages = 700 + x * 17,
+          InventoryId = $"INV{(300 + x)}",
+          Publisher = x % 2 == 0 ? "Alfaguara" : "Kapeluz",
+          Section = x % 2 == 0 ? "Seccion A" : "Seccion B",
+          Summary = "Lorem ipsum doloor."
+        });
+      }
 
 
     }
@@ -58,18 +93,23 @@ namespace BibMaMo.Infrastructure.Repositories
       return Task.FromResult(GetItemOrThrow(handle));
     }
 
-    public Task<IEnumerable<Book>> Get(string tags = "")
+    public Task<IEnumerable<Book>> Get()
     {
-      IEnumerable<Book> books;
-      if (string.IsNullOrEmpty(tags))
+      IEnumerable<Book> items;
+      items = (IEnumerable<Book>)MockRepo;
+      return Task.FromResult(items);
+
+    }
+    public Task<IEnumerable<Book>> GetFiltered(string tags)
+    {
+
+      IEnumerable<Book> items;
+      items = (IEnumerable<Book>)MockRepo.FindAll(x => ItemContainsTags(tags, x));
+      if (items.Count() == 0)
       {
-        books = (IEnumerable<Book>)MockRepo;
+        throw new ItemNotFoundException();
       }
-      else
-      {
-        books = (IEnumerable<Book>)MockRepo.FindAll(x => ItemContainsTags(tags, x));
-      }
-      return Task.FromResult(books);
+      return Task.FromResult(items);
 
     }
     private Book GetItemOrThrow(string handle)

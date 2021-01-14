@@ -12,16 +12,17 @@ namespace BibMaMo.Api.Controllers
   public class UserController : ControllerBase
   {
     IUserRepository _repository;
-    public UserController(IUserRepository repository)
+    public UserController(IUserRepository articleRepostitory)
     {
-      _repository = repository;
+      _repository = articleRepostitory;
     }
     [HttpGet]
-    public async Task<IActionResult> Get(string tags = "")
+    public async Task<IActionResult> Get()
     {
-      var Users = await _repository.Get(tags);
-      return Ok(Users);
+      var articles = await _repository.Get();
+      return Ok(articles);
     }
+    
     [HttpGet("{handle}")]
     public async Task<IActionResult> GetSingle(string handle)
     {
@@ -48,18 +49,18 @@ namespace BibMaMo.Api.Controllers
       return Ok();
     }
     [HttpPost]
-    public async Task<IActionResult> Insert(User User)
+    public async Task<IActionResult> Insert(User article)
     {
-      User.Handle = string.Empty;
-      User = await _repository.Insert(User);
-      return Ok(User);
+      article.Handle = string.Empty;
+      article = await _repository.Insert(article);
+      return Ok(article);
     }
     [HttpPut]
-    public async Task<IActionResult> Replace(User User)
+    public async Task<IActionResult> Replace(User article)
     {
       try
       {
-        await _repository.Replace(User);
+        await _repository.Replace(article);
         return Ok();
       }
       catch (ItemNotFoundException)
