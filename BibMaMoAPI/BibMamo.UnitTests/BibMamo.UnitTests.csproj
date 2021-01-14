@@ -19,4 +19,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BibMaMo.Core\BibMaMo.Core.csproj" />
+    <ProjectReference Include="..\BibMaMo.Infrastructure\BibMaMo.Infrastructure.csproj" />
+    <ProjectReference Include="..\BibMaMoAPI\BibMaMo.Api.csproj" />
+  </ItemGroup>
+
 </Project>

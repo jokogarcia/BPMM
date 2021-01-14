@@ -42,19 +42,9 @@ namespace BibMaMo.Infrastructure.Repositories
     }
     public Task<Article> AddArticle(Article article)
     {
-      if (string.IsNullOrEmpty(article.Handle))
-      {
-        article.Handle = Guid.NewGuid().ToString();
-      }
-      var i = MockRepo.FindIndex(x => x.Handle == article.Handle);
-      if (i >= 0)
-      {
-        MockRepo[i] = article;
-      }
-      else
-      {
-        MockRepo.Add(article);
-      }
+      article.Handle = Guid.NewGuid().ToString();
+      MockRepo.Add(article);
+      
       return Task.FromResult(article);
     }
 
@@ -105,6 +95,14 @@ namespace BibMaMo.Infrastructure.Repositories
           return true;
       }
       return false;
+    }
+
+    public Task UpdateArticle(Article article)
+    {
+      var oldArticle = GetItemOrThrow(article.Handle);
+      var oldArticleIndex = MockRepo.IndexOf(oldArticle);
+      MockRepo[oldArticleIndex] = article;
+      return Task.CompletedTask;
     }
   }
 }

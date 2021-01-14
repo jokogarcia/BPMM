@@ -58,8 +58,8 @@ namespace BibMaMo.Api.Controllers
     {
       try
       {
-        article = await _articleRepository.AddArticle(article);
-        return Ok(article);
+        await _articleRepository.UpdateArticle(article);
+        return Ok();
       }
       catch (ItemNotFoundException)
       {

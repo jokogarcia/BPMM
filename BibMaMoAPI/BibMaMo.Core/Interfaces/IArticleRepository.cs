@@ -10,5 +10,6 @@ namespace BibMaMo.Core.Interfaces
     Task<Article> GetArticle(string handle);
     Task DeleteArticle(string handle);
     Task<Article> AddArticle(Article article);
+    Task UpdateArticle(Article article);
   }
 }
