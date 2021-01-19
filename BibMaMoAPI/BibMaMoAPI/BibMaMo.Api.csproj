@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BibMaMo.Core\BibMaMo.Core.csproj" />
+    <ProjectReference Include="..\BibMaMo.Infrastructure\BibMaMo.Infrastructure.csproj" />
+  </ItemGroup>
+
+
+</Project>
