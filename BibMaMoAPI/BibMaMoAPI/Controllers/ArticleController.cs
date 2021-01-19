@@ -22,7 +22,7 @@ namespace BibMaMo.Api.Controllers
       var articles = await _repository.Get();
       return Ok(articles);
     }
-    [HttpGet("filtered/{tags}")]
+    [HttpGet("tags/{tags}")]
     public async Task<IActionResult> GetFiltered(string tags)
     {
       if (string.IsNullOrEmpty(tags))
