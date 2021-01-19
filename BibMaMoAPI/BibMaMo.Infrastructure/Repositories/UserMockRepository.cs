@@ -12,10 +12,12 @@ namespace BibMaMo.Infrastructure.Repositories
 
   public class UserMockRepository : IUserRepository
   {
-    List<User> MockRepo;
-    public UserMockRepository()
+    static List<User> _mockRepo;
+    List<User> MockRepo { get => _mockRepo ?? (_mockRepo = populateMockRepo()); }
+
+    private List<User> populateMockRepo()
     {
-      MockRepo = new List<User>();
+      var MockRepo = new List<User>();
       for (int x = 0; x < 10; x++)
       {
         MockRepo.Add(new User
@@ -25,12 +27,12 @@ namespace BibMaMo.Infrastructure.Repositories
           FirstName = $"User{x}First",
           LastName = $"User{x}Last]",
           MemberId = x < 5 ? string.Empty : x.ToString()
-        }); ;
+        });
       }
-
-
-
+      return MockRepo;
     }
+
+   
     public Task<User> Insert(User item)
     {
       item.Handle = Guid.NewGuid().ToString();

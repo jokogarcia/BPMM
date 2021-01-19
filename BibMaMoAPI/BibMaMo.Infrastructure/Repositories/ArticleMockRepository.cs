@@ -12,34 +12,38 @@ namespace BibMaMo.Infrastructure.Repositories
 
   public class ArticleMockRepository:IArticleRepository
   {
-    List<Article> MockRepo;
-    public ArticleMockRepository()
+    static List<Article> _mockRepo;
+    List<Article> MockRepo { get => _mockRepo ?? (_mockRepo = populateMockRepo()); }
+
+    private List<Article> populateMockRepo()
     {
-      MockRepo = new List<Article>();
-      for(int x = 0; x < 10; x++)
+      var repo = new List<Article>();
+      for (int x = 0; x < 10; x++)
       {
-        MockRepo.Add(new Article {
+        repo.Add(new Article
+        {
           Handle = x.ToString(),
           HtmlContent = $"Contenido del articulo {x}",
           MainImageUrl = $"tapa{x}.jpg",
-          Title=$"Libro {x}",
+          Title = $"Libro {x}",
           Tags = "coleccion"
         });
       }
       for (int x = 0; x < 10; x++)
       {
-        MockRepo.Add(new Article
+        repo.Add(new Article
         {
-          Handle =(x+10).ToString(),
-          HtmlContent = $"Contenido del articulo {x+10}",
+          Handle = (x + 10).ToString(),
+          HtmlContent = $"Contenido del articulo {x + 10}",
           MainImageUrl = $"nuestros{x}.jpg",
-          Title =$"Escritor {x}",
+          Title = $"Escritor {x}",
           Tags = "nuestros"
         });
       }
-
-     
+      return repo;
     }
+
+
     public Task<Article> Insert(Article item)
     {
       item.Handle = Guid.NewGuid().ToString();

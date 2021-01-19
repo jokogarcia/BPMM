@@ -12,31 +12,33 @@ namespace BibMaMo.Infrastructure.Repositories
 
   public class BookMockRepository : IBookRepository
   {
-    List<Book> MockRepo;
-    public BookMockRepository()
+    static List<Book> _mockRepo;
+    List<Book> MockRepo { get => _mockRepo ?? (_mockRepo = populateMockRepo()); }
+
+    private List<Book> populateMockRepo()
     {
-      MockRepo = new List<Book>();
+      var repo = new List<Book>();
       for (int x = 0; x < 10; x++)
       {
-        MockRepo.Add(new Book
+        repo.Add(new Book
         {
           Handle = x.ToString(),
-          Author=$"Autor {x}",
+          Author = $"Autor {x}",
           Title = $"Libro {x}",
           Tags = "",
-          Descriptor="novelas",
-          Edition=2000+x,
-          ISBN=Guid.NewGuid().ToString(),
-          Pages=700+x*17,
-          InventoryId=$"INV{(300+x)}",
-          Publisher= x%2==0 ? "Alfaguara":"Kapeluz",
+          Descriptor = "novelas",
+          Edition = 2000 + x,
+          ISBN = Guid.NewGuid().ToString(),
+          Pages = 700 + x * 17,
+          InventoryId = $"INV{(300 + x)}",
+          Publisher = x % 2 == 0 ? "Alfaguara" : "Kapeluz",
           Section = x % 2 == 0 ? "Seccion A" : "Seccion B",
-          Summary="Lorem ipsum doloor."
+          Summary = "Lorem ipsum doloor."
         });
       }
       for (int x = 10; x < 15; x++)
       {
-        MockRepo.Add(new Book
+        repo.Add(new Book
         {
           Handle = x.ToString(),
           Author = $"Autor {x}",
@@ -54,7 +56,7 @@ namespace BibMaMo.Infrastructure.Repositories
       }
       for (int x = 15; x < 20; x++)
       {
-        MockRepo.Add(new Book
+        repo.Add(new Book
         {
           Handle = x.ToString(),
           Author = $"Autor {x}",
@@ -70,9 +72,10 @@ namespace BibMaMo.Infrastructure.Repositories
           Summary = "Lorem ipsum doloor."
         });
       }
-
-
+      return repo;
     }
+
+
     public Task<Book> Insert(Book book)
     {
       book.Handle = Guid.NewGuid().ToString();

@@ -94,8 +94,9 @@ namespace BibMamo.UnitTests
     public void GetSingle_ExistingHandlePassed_ReturnsOkResult()
     {
       // Arrange
+      var handle = GetValidHandleFromRepo();
       // Act
-      var okResult = _controller.GetSingle("1");
+      var okResult = _controller.GetSingle(handle);
       // Assert
       Assert.IsType<OkObjectResult>(okResult.Result);
     }
@@ -103,7 +104,7 @@ namespace BibMamo.UnitTests
     public void GetSingle_ExistingHandlePassed_ReturnsRightItem()
     {
       // Arrange
-      var testHandle = "1";
+      var testHandle = GetValidHandleFromRepo();
       // Act
       var okResult = _controller.GetSingle(testHandle).Result as OkObjectResult;
       // Assert

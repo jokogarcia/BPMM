@@ -15,7 +15,7 @@ using System.Linq;
 
 namespace BibMaMo.IntegrationTests
 {
-  public class ArticleIntergrationTests
+  public class UserIntergrationTests
   {
     HttpClient _client;
     HttpClient client { get => _client ?? (_client = GetClientAsync().Result); }
@@ -31,7 +31,7 @@ namespace BibMaMo.IntegrationTests
 
           webHost.UseEnvironment("Test");
 
-         // webHost.Configure(app => app.Run(async ctx => await ctx.Response.WriteAsync("Hello World!")));
+          // webHost.Configure(app => app.Run(async ctx => await ctx.Response.WriteAsync("Hello World!")));
 
         });
       var host = await hostBuilder.StartAsync();
@@ -42,12 +42,12 @@ namespace BibMaMo.IntegrationTests
     public async Task Get_ReturnsOkAndHasContent()
     {
       //Act
-      var response = await client.GetAsync("/api/article");
+      var response = await client.GetAsync("/api/user");
       var content = await response.Content.ReadAsStringAsync();
-      var contentObj = JsonConvert.DeserializeObject<List<Article>>(content);
+      var contentObj = JsonConvert.DeserializeObject<List<User>>(content);
       //assert
       Assert.True(response.IsSuccessStatusCode);
-      Assert.IsType<List<Article>>(contentObj);
+      Assert.IsType<List<User>>(contentObj);
 
 
     }
@@ -58,52 +58,28 @@ namespace BibMaMo.IntegrationTests
     public async Task GetSingle_WithValidHandle_ReturnsOkAndHasContent(string handle)
     {
       //Act
-      var response = await client.GetAsync($"/api/article/{handle}");
+      var response = await client.GetAsync($"/api/user/{handle}");
       var content = await response.Content.ReadAsStringAsync();
-      var contentObj = JsonConvert.DeserializeObject<Article>(content);
+      var contentObj = JsonConvert.DeserializeObject<User>(content);
       //assert
       Assert.True(response.IsSuccessStatusCode);
-      Assert.IsType<Article>(contentObj);
-      Assert.Equal(handle,contentObj.Handle);
+      Assert.IsType<User>(contentObj);
+      Assert.Equal(handle, contentObj.Handle);
     }
     [Theory]
     [InlineData("fhwh098")]
     public async Task GetSingle_WithInvalidHandle_ReturnsNotFound(string handle)
     {
       //Act
-      var response = await client.GetAsync($"/api/article/{handle}");
+      var response = await client.GetAsync($"/api/user/{handle}");
       //assert
-      Assert.Equal(HttpStatusCode.NotFound,response.StatusCode);
-      
+      Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+
     }
 
-    [Theory]
-    [InlineData("nuestros")]
-    [InlineData("coleccion")]
-    [InlineData("nuestros,coleccion")]
-    public async Task GetFiltered_WithValidTags_ReturnsOkAndHasContent(string tags)
-    {
-      //Act
-      var response = await client.GetAsync($"/api/article/tags/{tags}");
-      var content = await response.Content.ReadAsStringAsync();
-      var contentObj = JsonConvert.DeserializeObject<List<Article>>(content);
-      //assert
-      Assert.True(response.IsSuccessStatusCode);
-      Assert.IsType<List<Article>>(contentObj);
-      Assert.True(contentObj.TrueForAll(x => ItemContainsTag(x, tags)));
-    }
+    
 
-    private bool ItemContainsTag( Article item, string tags)
-    {
-      var tagsArr = tags.ToLower().Split(',');
-      var itemTagsArr = item.Tags.ToLower().Split(',');
-      foreach (var tag in tagsArr)
-      {
-        if (itemTagsArr.Contains(tag))
-          return true;
-      }
-      return false;
-    }
+    
 
     [Theory]
     [InlineData("fhwh098")]
@@ -112,21 +88,21 @@ namespace BibMaMo.IntegrationTests
     public async Task GetFiltered_WithInvalidTags_ReturnsNotFound(string tags)
     {
       //Act
-      var response = await client.GetAsync($"/api/article/tags/{tags}");
+      var response = await client.GetAsync($"/api/user/tags/{tags}");
       //assert
       Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 
     }
-    Article GenerateValidItem(string handle = "")
+    User GenerateValidItem(string handle = "")
     {
       var rnd = new Random().Next(100, 10000);
-      Article testItem = new Article()
+      User testItem = new User
       {
-        Title = $"Test title {rnd}",
-        HtmlContent = $"<p>This is randomly generated <b>HTML</b> content id <i>{rnd}</i>",
-        Handle = handle,
-        MainImageUrl = $"test{rnd}.jpg",
-        Tags = $"some,tags,test,rnd{rnd}"
+        Handle = rnd.ToString(),
+        Email = $"item{rnd}@fakemail.com",
+        FirstName = $"User{rnd}First",
+        LastName = $"User{rnd}Last]",
+        MemberId = rnd < 5 ? string.Empty : rnd.ToString()
       };
       return testItem;
     }
@@ -137,12 +113,12 @@ namespace BibMaMo.IntegrationTests
       var requestContent = JsonConvert.SerializeObject(GenerateValidItem());
 
       //act
-      var response = await client.PostAsync("/api/article/", new StringContent(requestContent,System.Text.Encoding.UTF8,"application/json"));
+      var response = await client.PostAsync("/api/user/", new StringContent(requestContent, System.Text.Encoding.UTF8, "application/json"));
 
       //assert
       Assert.True(response.IsSuccessStatusCode);
       var content = await response.Content.ReadAsStringAsync();
-      var contentObj = JsonConvert.DeserializeObject<Article>(content);
+      var contentObj = JsonConvert.DeserializeObject<User>(content);
       Assert.NotNull(contentObj);
       Assert.False(string.IsNullOrEmpty(contentObj.Handle));
     }
@@ -151,30 +127,30 @@ namespace BibMaMo.IntegrationTests
     {
       //Prepare
       var requestContent = JsonConvert.SerializeObject(GenerateValidItem());
-      var response = await client.PostAsync("/api/article/", new StringContent(requestContent, System.Text.Encoding.UTF8, "application/json"));
+      var response = await client.PostAsync("/api/user/", new StringContent(requestContent, System.Text.Encoding.UTF8, "application/json"));
       var content = await response.Content.ReadAsStringAsync();
-      var contentObj = JsonConvert.DeserializeObject<Article>(content);
+      var contentObj = JsonConvert.DeserializeObject<User>(content);
       //act
-      response = await client.GetAsync($"/api/article/{contentObj.Handle}");
+      response = await client.GetAsync($"/api/user/{contentObj.Handle}");
       var getContent = await response.Content.ReadAsStringAsync();
-      var getContentObj = JsonConvert.DeserializeObject<Article>(getContent);
-      
+      var getContentObj = JsonConvert.DeserializeObject<User>(getContent);
+
       //assert
       Assert.True(response.IsSuccessStatusCode);
-      
-      Assert.Equal(contentObj.Handle,getContentObj.Handle);
+
+      Assert.Equal(contentObj.Handle, getContentObj.Handle);
     }
     [Fact]
     public async Task DeleteItem_ItemIsDeleted()
     {
       //Prepare
-      var handle = "10";
+      var handle = "7";
       //act
-      var response = await client.DeleteAsync($"/api/article/{handle}");
-      
+      var response = await client.DeleteAsync($"/api/user/{handle}");
+
       //assert
       Assert.True(response.IsSuccessStatusCode);
-      response = await client.GetAsync($"/api/article/{handle}");
+      response = await client.GetAsync($"/api/user/{handle}");
       //assert
       Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 
@@ -185,7 +161,7 @@ namespace BibMaMo.IntegrationTests
       //Prepare
       var handle = "1fgejbkasdf0";
       //act
-      var response = await client.DeleteAsync($"/api/article/{handle}");
+      var response = await client.DeleteAsync($"/api/user/{handle}");
 
       //assert
       Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -195,20 +171,20 @@ namespace BibMaMo.IntegrationTests
     {
       //Prepare
       var item = GenerateValidItem();
-      item.Handle = "12";
+      item.Handle = "4";
       var requestContent = JsonConvert.SerializeObject(item);
-      var response = await client.PutAsync("/api/article/", new StringContent(requestContent, System.Text.Encoding.UTF8, "application/json"));
+      var response = await client.PutAsync("/api/user/", new StringContent(requestContent, System.Text.Encoding.UTF8, "application/json"));
 
       //act
-      var response2 = await client.GetAsync($"/api/article/{item.Handle}");
+      var response2 = await client.GetAsync($"/api/user/{item.Handle}");
       var getContent = await response2.Content.ReadAsStringAsync();
-      var getContentObj = JsonConvert.DeserializeObject<Article>(getContent);
+      var getContentObj = JsonConvert.DeserializeObject<User>(getContent);
 
       //assert
       Assert.True(response.IsSuccessStatusCode);
 
       Assert.Equal(item.Handle, getContentObj.Handle);
-      Assert.Equal(item.Title, getContentObj.Title);
+      Assert.Equal(item.Email, getContentObj.Email);
 
     }
 
@@ -220,11 +196,11 @@ namespace BibMaMo.IntegrationTests
       item.Handle = "invalid";
       var requestContent = JsonConvert.SerializeObject(item);
       //act
-      var response = await client.PutAsync("/api/article/", new StringContent(requestContent, System.Text.Encoding.UTF8, "application/json"));
-      
+      var response = await client.PutAsync("/api/user/", new StringContent(requestContent, System.Text.Encoding.UTF8, "application/json"));
+
 
       //assert
-      Assert.Equal(HttpStatusCode.NotFound,response.StatusCode);
+      Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 
     }
 
