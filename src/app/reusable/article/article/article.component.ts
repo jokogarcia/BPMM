@@ -20,8 +20,12 @@ export class ArticleComponent implements OnInit {
 
   ngOnInit(): void {
     this.articleHandle="validArticleIsValid";
-    this.article = this.articlesService.getArticle(this.articleHandle);
-    this.content = this.sanitized.sanitize(SecurityContext.HTML, this.article.htmlContent);
+    this.articlesService.read(this.articleHandle)
+    .subscribe( article=>
+      {
+        this.article=article;
+        this.content = this.sanitized.sanitize(SecurityContext.HTML, article.htmlContent);
+      });
   }
 
 }

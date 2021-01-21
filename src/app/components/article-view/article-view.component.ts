@@ -19,8 +19,15 @@ export class ArticleViewComponent implements OnInit {
     private sanitized: DomSanitizer) { }
   
   ngOnInit(): void {
-    this.article = this.articlesService.getArticle(this.activatedroute.snapshot.paramMap.get("handle"));
-    this.content = this.sanitized.sanitize(SecurityContext.HTML, this.article.htmlContent);
+    this.articlesService.read(this.activatedroute.snapshot.paramMap.get("handle"))
+    .subscribe( article=>
+      {
+        this.article=article;
+        this.content = this.sanitized.sanitize(SecurityContext.HTML, article.htmlContent);
+      });
+
+    
   }
+
 
 }
