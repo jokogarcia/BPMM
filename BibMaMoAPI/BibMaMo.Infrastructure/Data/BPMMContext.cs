@@ -2,6 +2,7 @@ using BibMaMo.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace BibMaMo.Infrastructure.Data
@@ -14,7 +15,9 @@ namespace BibMaMo.Infrastructure.Data
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-      optionsBuilder.UseSqlite("Filename=C:\\Repositories\\BPMM\\BibMaMoAPI\\BibMaMoAPI\\bpmmm.sqlite");
+      var homefolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+      var fullpath = Path.Combine(homefolder, "bpmm.sqlite");
+      optionsBuilder.UseSqlite($"Filename={fullpath}");
 
     }
    
