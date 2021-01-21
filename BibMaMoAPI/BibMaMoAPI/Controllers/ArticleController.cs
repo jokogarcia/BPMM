@@ -39,24 +39,24 @@ namespace BibMaMo.Api.Controllers
         return NotFound();
       }
     }
-    [HttpGet("{handle}")]
-    public async Task<IActionResult> GetSingle(string handle)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetSingle(int id)
     {
       try
       {
-        return Ok(await _repository.GetSingle(handle));
+        return Ok(await _repository.GetSingle(id));
       }
       catch (ItemNotFoundException)
       {
         return NotFound();
       }
     }
-    [HttpDelete("{handle}")]
-    public async Task<IActionResult> Remove(string handle)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Remove(int id)
     {
       try
       {
-        await _repository.Remove(handle);
+        await _repository.Remove(id);
       }catch (ItemNotFoundException)
       {
         return NotFound();
@@ -66,7 +66,7 @@ namespace BibMaMo.Api.Controllers
     [HttpPost]
     public async Task<IActionResult> Insert(Article article)
     {
-      article.Handle = string.Empty;
+      article.ArticleId = 0;
       article = await _repository.Insert(article);
       return Ok(article);
     }

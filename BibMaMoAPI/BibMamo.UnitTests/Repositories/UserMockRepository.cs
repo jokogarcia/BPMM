@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BibMaMo.Infrastructure.Repositories
+namespace BibMaMo.UnitTests.Repositories
 {
 
   public class UserMockRepository : IUserRepository
@@ -22,7 +22,7 @@ namespace BibMaMo.Infrastructure.Repositories
       {
         MockRepo.Add(new User
         {
-          Handle = x.ToString(),
+          UserId = x,
           Email = $"item{x}@fakemail.com",
           FirstName = $"User{x}First",
           LastName = $"User{x}Last]",
@@ -35,22 +35,22 @@ namespace BibMaMo.Infrastructure.Repositories
    
     public Task<User> Insert(User item)
     {
-      item.Handle = Guid.NewGuid().ToString();
+      item.UserId = new Random().Next(1,100);
       MockRepo.Add(item);
 
       return Task.FromResult(item);
     }
 
-    public Task Remove(string handle)
+    public Task Remove(int id)
     {
-      var item = GetItemOrThrow(handle);
+      var item = GetItemOrThrow(id);
       MockRepo.Remove(item);
       return Task.CompletedTask;
     }
 
-    public Task<User> GetSingle(string handle)
+    public Task<User> GetSingle(int id)
     {
-      return Task.FromResult(GetItemOrThrow(handle));
+      return Task.FromResult(GetItemOrThrow(id));
     }
 
     public Task<IEnumerable<User>> Get()
@@ -60,9 +60,9 @@ namespace BibMaMo.Infrastructure.Repositories
       return Task.FromResult(items);
 
     }
-    private User GetItemOrThrow(string handle)
+    private User GetItemOrThrow(int id)
     {
-      var item = MockRepo.Find(x => x.Handle.Equals(handle));
+      var item = MockRepo.Find(x => x.UserId.Equals(id));
       if (item == null)
       {
         throw new ItemNotFoundException();
@@ -71,7 +71,7 @@ namespace BibMaMo.Infrastructure.Repositories
     }
     public Task Replace(User item)
     {
-      var oldUser = GetItemOrThrow(item.Handle);
+      var oldUser = GetItemOrThrow(item.UserId);
       var oldUserIndex = MockRepo.IndexOf(oldUser);
       MockRepo[oldUserIndex] = item;
       return Task.CompletedTask;

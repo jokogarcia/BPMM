@@ -2,6 +2,7 @@ using BibMaMo.Api.Controllers;
 using BibMaMo.Core.Entities;
 using BibMaMo.Core.Interfaces;
 using BibMaMo.Infrastructure.Repositories;
+using BibMaMo.UnitTests.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace BibMamo.UnitTests
   {
     private UserController _controller;
 
-    User GenerateValidUser(string handle = "")
+    User GenerateValidUser(int id = 0)
     {
       var rnd = new Random().Next(100, 10000);
       User testItem = new User()
@@ -22,16 +23,20 @@ namespace BibMamo.UnitTests
         FirstName = $"FakeTestName{rnd}",
         LastName = $"FakeTestLastname{rnd}",
         Email = $"FakeTestEmail{rnd}@example.com",
-        Handle = handle,
+        UserId = id,
         MemberId = rnd % 3 == 0 ? $"MEMBER{rnd}": ""
       };
       return testItem;
     }
-    string GetValidHandleFromRepo()
+    int GetValidHandleFromRepo()
     {
       var items = (_controller.Get().Result as OkObjectResult).Value as List<User>;
+      if (items.Count < 1)
+      {
+        throw new Exception("No items in repo. Test cannot run");
+      }
       var randomItem = items[new Random().Next(0, items.Count - 1)];
-      return randomItem.Handle;
+      return randomItem.UserId;
     }
     public UserControllerTests()
     {
@@ -62,33 +67,18 @@ namespace BibMamo.UnitTests
     public void GetSingle_UnknownHandlePassed_ReturnsNotFoundResult()
     {
       // Act
-      var notFoundResult = _controller.GetSingle("bad handle");
+      var notFoundResult = _controller.GetSingle(-1);
       // Assert
       Assert.IsType<NotFoundResult>(notFoundResult.Result);
     }
-    [Fact]
-    public void GetSingle_EmptyHandlePassed_ReturnsNotFoundResult()
-    {
-      // Act
-      var notFoundResult = _controller.GetSingle("");
-      // Assert
-      Assert.IsType<NotFoundResult>(notFoundResult.Result);
-    }
-    [Fact]
-    public void GetSingle_NullHandlePassed_ReturnsNotFoundResult()
-    {
-      // Act
-      var notFoundResult = _controller.GetSingle(null);
-      // Assert
-      Assert.IsType<NotFoundResult>(notFoundResult.Result);
-    }
+   
     [Fact]
     public void GetSingle_ExistingHandlePassed_ReturnsOkResult()
     {
       // Arrange
-      var handle = GetValidHandleFromRepo();
+      var id = GetValidHandleFromRepo();
       // Act
-      var okResult = _controller.GetSingle(handle);
+      var okResult = _controller.GetSingle(id);
       // Assert
       Assert.IsType<OkObjectResult>(okResult.Result);
     }
@@ -101,7 +91,7 @@ namespace BibMamo.UnitTests
       var okResult = _controller.GetSingle(testHandle).Result as OkObjectResult;
       // Assert
       Assert.IsType<User>(okResult.Value);
-      Assert.Equal(testHandle, (okResult.Value as User).Handle);
+      Assert.Equal(testHandle, (okResult.Value as User).UserId);
     }
     #endregion
     #region AddMethodTests
@@ -142,27 +132,17 @@ namespace BibMamo.UnitTests
       // Assert
       Assert.IsType<User>(item);
       Assert.Equal(verifyableProperty, item.Email);
-      Assert.False(string.IsNullOrEmpty(item.Handle));
     }
     #endregion
     #region UpdateMethodTests
-    [Fact]
-    public void Update_EmptyHandleObject_ReturnsNotFoundResult()
-    {
-      // Arrange
-      var handleMissingItem = GenerateValidUser();
-      // Act
-      var badResponse = _controller.Replace(handleMissingItem).Result;
-      // Assert
-      Assert.IsType<NotFoundResult>(badResponse);
-    }
+  
     [Fact]
     public void Update_InvalidHandleObject_ReturnsNotFoundResult()
     {
       // Arrange
-      var handleMissingItem = GenerateValidUser();
+      var idMissingItem = GenerateValidUser(-1);
       // Act
-      var badResponse = _controller.Replace(handleMissingItem).Result;
+      var badResponse = _controller.Replace(idMissingItem).Result;
       // Assert
       Assert.IsType<NotFoundResult>(badResponse);
     }
@@ -183,7 +163,7 @@ namespace BibMamo.UnitTests
     public void Remove_NotExistingHandlePassed_ReturnsNotFoundResponse()
     {
       // Arrange
-      var notExistinHgandle = "not existing Handle";
+      var notExistinHgandle = -1;
       // Act
       var badResponse = _controller.Remove(notExistinHgandle).Result;
       // Assert

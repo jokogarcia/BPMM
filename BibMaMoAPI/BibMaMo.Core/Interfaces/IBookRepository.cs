@@ -8,8 +8,8 @@ namespace BibMaMo.Core.Interfaces
   {
     Task<IEnumerable<Book>> Get();
     Task<IEnumerable<Book>> GetFiltered(string tags);
-    Task<Book> GetSingle(string handle);
-    Task Remove(string handle);
+    Task<Book> GetSingle(int id);
+    Task Remove(int id);
     Task<Book> Insert(Book article);
     Task Replace(Book article);
   }

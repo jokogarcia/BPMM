@@ -2,6 +2,7 @@ using BibMaMo.Api.Controllers;
 using BibMaMo.Core.Entities;
 using BibMaMo.Core.Interfaces;
 using BibMaMo.Infrastructure.Repositories;
+using BibMaMo.UnitTests.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,14 @@ namespace BibMamo.UnitTests
   {
     private BookController _controller;
 
-    Book GenerateValidBook(string handle = "")
+    Book GenerateValidBook(int id = 0)
     {
       var rnd = new Random().Next(100, 10000);
       Book testItem = new Book()
       {
         Title = $"Test title {rnd}",
         Descriptor = rnd % 2 == 0 ? "novela" : "teatro",
-        Handle = handle,
+        BookId = id,
         Author = $"Test Author {rnd}.jpg",
         Tags = $"test tag,rnd{rnd}",
         Collection = rnd % 2 == 0 ? "" : "La ciudad de los naranjos",
@@ -35,11 +36,15 @@ namespace BibMamo.UnitTests
       };
       return testItem;
     }
-    string GetValidHandleFromRepo()
+    int GetValidHandleFromRepo()
     {
       var items = (_controller.Get().Result as OkObjectResult).Value as List<Book>;
+      if (items.Count < 1)
+      {
+        throw new Exception("No items in repo. Test cannot run");
+      }
       var randomItem = items[new Random().Next(0, items.Count - 1)];
-      return randomItem.Handle;
+      return randomItem.BookId;
     }
     public BookControllerTests()
     {
@@ -70,33 +75,19 @@ namespace BibMamo.UnitTests
     public void GetSingle_UnknownHandlePassed_ReturnsNotFoundResult()
     {
       // Act
-      var notFoundResult = _controller.GetSingle("bad handle");
+      var notFoundResult = _controller.GetSingle(-1);
       // Assert
       Assert.IsType<NotFoundResult>(notFoundResult.Result);
     }
-    [Fact]
-    public void GetSingle_EmptyHandlePassed_ReturnsNotFoundResult()
-    {
-      // Act
-      var notFoundResult = _controller.GetSingle("");
-      // Assert
-      Assert.IsType<NotFoundResult>(notFoundResult.Result);
-    }
-    [Fact]
-    public void GetSingle_NullHandlePassed_ReturnsNotFoundResult()
-    {
-      // Act
-      var notFoundResult = _controller.GetSingle(null);
-      // Assert
-      Assert.IsType<NotFoundResult>(notFoundResult.Result);
-    }
+
+   
     [Fact]
     public void GetSingle_ExistingHandlePassed_ReturnsOkResult()
     {
       // Arrange
-      var handle = GetValidHandleFromRepo();
+      var id = GetValidHandleFromRepo();
       // Act
-      var okResult = _controller.GetSingle(handle);
+      var okResult = _controller.GetSingle(id);
       // Assert
       Assert.IsType<OkObjectResult>(okResult.Result);
     }
@@ -109,7 +100,7 @@ namespace BibMamo.UnitTests
       var okResult = _controller.GetSingle(testHandle).Result as OkObjectResult;
       // Assert
       Assert.IsType<Book>(okResult.Value);
-      Assert.Equal(testHandle, (okResult.Value as Book).Handle);
+      Assert.Equal(testHandle, (okResult.Value as Book).BookId);
     }
     #endregion
     #region AddMethodTests
@@ -150,27 +141,18 @@ namespace BibMamo.UnitTests
       // Assert
       Assert.IsType<Book>(item);
       Assert.Equal(verifyableProperty, item.Title);
-      Assert.False(string.IsNullOrEmpty(item.Handle));
+      
     }
     #endregion
     #region UpdateMethodTests
-    [Fact]
-    public void Update_EmptyHandleObject_ReturnsNotFoundResult()
-    {
-      // Arrange
-      var handleMissingItem = GenerateValidBook();
-      // Act
-      var badResponse = _controller.Replace(handleMissingItem).Result;
-      // Assert
-      Assert.IsType<NotFoundResult>(badResponse);
-    }
+    
     [Fact]
     public void Update_InvalidHandleObject_ReturnsNotFoundResult()
     {
       // Arrange
-      var handleMissingItem = GenerateValidBook();
+      var idMissingItem = GenerateValidBook(981);
       // Act
-      var badResponse = _controller.Replace(handleMissingItem).Result;
+      var badResponse = _controller.Replace(idMissingItem).Result;
       // Assert
       Assert.IsType<NotFoundResult>(badResponse);
     }
@@ -191,7 +173,7 @@ namespace BibMamo.UnitTests
     public void Remove_NotExistingHandlePassed_ReturnsNotFoundResponse()
     {
       // Arrange
-      var notExistinHgandle = "not existing Handle";
+      var notExistinHgandle = -1;
       // Act
       var badResponse = _controller.Remove(notExistinHgandle).Result;
       // Assert
@@ -250,7 +232,7 @@ namespace BibMamo.UnitTests
     {
       // Arrange
       // Act
-      var okResult = _controller.GetFiltered("tag1");
+      var okResult = _controller.GetFiltered("tags");
       // Assert
       Assert.IsType<OkObjectResult>(okResult.Result);
     }
@@ -258,7 +240,7 @@ namespace BibMamo.UnitTests
     public void GetFiltered_ExistingTagPassed_ReturnsRightItems()
     {
       // Arrange
-      var testTag = "tag2";
+      var testTag = "some";
       // Act
       var okResult = _controller.GetFiltered(testTag).Result as OkObjectResult;
       var resultValue = okResult.Value as List<Book>;
@@ -271,7 +253,7 @@ namespace BibMamo.UnitTests
     {
       // Arrange
       // Act
-      var okResult = _controller.GetFiltered("tag1,tag2");
+      var okResult = _controller.GetFiltered("some,tags");
       // Assert
       Assert.IsType<OkObjectResult>(okResult.Result);
     }
@@ -279,14 +261,15 @@ namespace BibMamo.UnitTests
     public void GetFiltered_ExistingTagsPassed_ReturnsRightItems()
     {
       // Arrange
-      var testTags = "tag1,tag2";
+      var testTags = "some,tags";
       var testTagsArr = testTags.Split(',');
       // Act
       var okResult = _controller.GetFiltered(testTags).Result as OkObjectResult;
       var resultValue = okResult.Value as List<Book>;
       // Assert
       Assert.IsType<List<Book>>(okResult.Value);
-      Assert.Null(resultValue.Find(x => !x.Tags.Contains(testTagsArr[0]) && !x.Tags.Contains(testTags[1]))); //Check that all the items contain at least one testTag
+      var itemsWithNoneOfTheTags = resultValue.Find(x => !x.Tags.Contains(testTagsArr[0]) && !x.Tags.Contains(testTagsArr[1]));
+      Assert.Null(itemsWithNoneOfTheTags); //Check that all the items contain at least one testTag
     }
     #endregion
 

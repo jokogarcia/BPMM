@@ -51,36 +51,35 @@ namespace BibMaMo.IntegrationTests
 
 
     }
-    [Theory]
-    [InlineData("1")]
-    [InlineData("2")]
-    [InlineData("3")]
-    public async Task GetSingle_WithValidHandle_ReturnsOkAndHasContent(string handle)
+    [Fact]
+
+    public async Task GetSingle_WithValidHandle_ReturnsOkAndHasContent()
     {
+      var id = await this.GetValidId();
       //Act
-      var response = await client.GetAsync($"/api/book/{handle}");
+      var response = await client.GetAsync($"/api/book/{id}");
       var content = await response.Content.ReadAsStringAsync();
       var contentObj = JsonConvert.DeserializeObject<Book>(content);
       //assert
       Assert.True(response.IsSuccessStatusCode);
       Assert.IsType<Book>(contentObj);
-      Assert.Equal(handle, contentObj.Handle);
+      Assert.Equal(id, contentObj.BookId);
     }
     [Theory]
-    [InlineData("fhwh098")]
-    public async Task GetSingle_WithInvalidHandle_ReturnsNotFound(string handle)
+    [InlineData(999)]
+    public async Task GetSingle_WithInvalidHandle_ReturnsNotFound(int id)
     {
       //Act
-      var response = await client.GetAsync($"/api/book/{handle}");
+      var response = await client.GetAsync($"/api/book/{id}");
       //assert
       Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 
     }
 
     [Theory]
-    [InlineData("tag1")]
-    [InlineData("tag2")]
-    [InlineData("tag1,tag2")]
+    [InlineData("some")]
+    [InlineData("tags")]
+    [InlineData("some,tags")]
     public async Task GetFiltered_WithValidTags_ReturnsOkAndHasContent(string tags)
     {
       //Act
@@ -106,26 +105,35 @@ namespace BibMaMo.IntegrationTests
     }
 
     [Theory]
-    [InlineData("fhwh098")]
+
     [InlineData("")]
     [InlineData(null)]
-    public async Task GetFiltered_WithInvalidTags_ReturnsNotFound(string tags)
+    public async Task GetFiltered_WithInvalidTags_ReturnsBadRequest(string tags)
     {
       //Act
       var response = await client.GetAsync($"/api/book/tags/{tags}");
       //assert
+      Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+
+    }
+    [Fact]
+    public async Task GetFiltered_WithNonExistingTags_ReturnsNotFound()
+    {
+      //Act
+      var response = await client.GetAsync($"/api/book/tags/non_existing_tag");
+      //assert
       Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 
     }
-    Book GenerateValidItem(string handle = "")
+    Book GenerateValidItem(int id = 0)
     {
       var rnd = new Random().Next(100, 10000);
       Book testItem = new Book
       {
-        Handle = rnd.ToString(),
+        BookId = id,
         Author = $"Autor {rnd}",
         Title = $"Libro {rnd}",
-        Tags = "tag2",
+        Tags = "some,tags",
         Descriptor = "poesia",
         Edition = 2000 + rnd,
         ISBN = Guid.NewGuid().ToString(),
@@ -138,7 +146,7 @@ namespace BibMaMo.IntegrationTests
       return testItem;
     }
     [Fact]
-    public async Task InsertItem_ReturnsOk_ReturnsInsertedObj()
+    public async Task A0InsertItem_ReturnsOk_ReturnsInsertedObj()
     {
       //Prepare
       var requestContent = JsonConvert.SerializeObject(GenerateValidItem());
@@ -151,10 +159,10 @@ namespace BibMaMo.IntegrationTests
       var content = await response.Content.ReadAsStringAsync();
       var contentObj = JsonConvert.DeserializeObject<Book>(content);
       Assert.NotNull(contentObj);
-      Assert.False(string.IsNullOrEmpty(contentObj.Handle));
+      // Assert.False(string.IsNullOrEmpty(contentObj.BookId));
     }
     [Fact]
-    public async Task InsertItem_ItemIsInserted()
+    public async Task A0InsertItem_ItemIsInserted()
     {
       //Prepare
       var requestContent = JsonConvert.SerializeObject(GenerateValidItem());
@@ -162,26 +170,26 @@ namespace BibMaMo.IntegrationTests
       var content = await response.Content.ReadAsStringAsync();
       var contentObj = JsonConvert.DeserializeObject<Book>(content);
       //act
-      response = await client.GetAsync($"/api/book/{contentObj.Handle}");
+      response = await client.GetAsync($"/api/book/{contentObj.BookId}");
       var getContent = await response.Content.ReadAsStringAsync();
       var getContentObj = JsonConvert.DeserializeObject<Book>(getContent);
 
       //assert
       Assert.True(response.IsSuccessStatusCode);
 
-      Assert.Equal(contentObj.Handle, getContentObj.Handle);
+      Assert.Equal(contentObj.BookId, getContentObj.BookId);
     }
     [Fact]
     public async Task DeleteItem_ItemIsDeleted()
     {
       //Prepare
-      var handle = "10";
+      var id = await this.GetValidId();
       //act
-      var response = await client.DeleteAsync($"/api/book/{handle}");
+      var response = await client.DeleteAsync($"/api/book/{id}");
 
       //assert
       Assert.True(response.IsSuccessStatusCode);
-      response = await client.GetAsync($"/api/book/{handle}");
+      response = await client.GetAsync($"/api/book/{id}");
       //assert
       Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 
@@ -190,9 +198,9 @@ namespace BibMaMo.IntegrationTests
     public async Task DeleteInvalidHAndleItem_ReturnsNotFound()
     {
       //Prepare
-      var handle = "1fgejbkasdf0";
+      var id = -25;
       //act
-      var response = await client.DeleteAsync($"/api/book/{handle}");
+      var response = await client.DeleteAsync($"/api/book/{id}");
 
       //assert
       Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -201,30 +209,29 @@ namespace BibMaMo.IntegrationTests
     public async Task ModifyItemWithValidHandle_ItemIsModified()
     {
       //Prepare
-      var item = GenerateValidItem();
-      item.Handle = "12";
+      var item = GenerateValidItem(await this.GetValidId());
       var requestContent = JsonConvert.SerializeObject(item);
       var response = await client.PutAsync("/api/book/", new StringContent(requestContent, System.Text.Encoding.UTF8, "application/json"));
 
       //act
-      var response2 = await client.GetAsync($"/api/book/{item.Handle}");
+      var response2 = await client.GetAsync($"/api/book/{item.BookId}");
       var getContent = await response2.Content.ReadAsStringAsync();
       var getContentObj = JsonConvert.DeserializeObject<Book>(getContent);
 
       //assert
       Assert.True(response.IsSuccessStatusCode);
 
-      Assert.Equal(item.Handle, getContentObj.Handle);
+      Assert.Equal(item.BookId, getContentObj.BookId);
       Assert.Equal(item.Title, getContentObj.Title);
 
     }
 
     [Fact]
-    public async Task ModifyItemWithInValidHandle_BadRequestReceived()
+    public async Task ModifyItemWithInvalidHandle_BadRequestReceived()
     {
       //Prepare
       var item = GenerateValidItem();
-      item.Handle = "invalid";
+      item.BookId = -999;
       var requestContent = JsonConvert.SerializeObject(item);
       //act
       var response = await client.PutAsync("/api/book/", new StringContent(requestContent, System.Text.Encoding.UTF8, "application/json"));
@@ -234,7 +241,17 @@ namespace BibMaMo.IntegrationTests
       Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 
     }
-
+    async Task<int> GetValidId()
+    {
+      var response = await client.GetAsync("/api/book");
+      var content = await response.Content.ReadAsStringAsync();
+      var contentObj = JsonConvert.DeserializeObject<List<Book>>(content);
+      if (contentObj.Count > 0)
+      {
+        return contentObj[new Random().Next(0, contentObj.Count)].BookId;
+      }
+      throw new Exception();
+    }
   }
 
 }
