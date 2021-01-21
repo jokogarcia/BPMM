@@ -28,9 +28,9 @@ namespace BibMaMoAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<IArticleRepository, ArticleMockRepository>();
-            services.AddSingleton<IBookRepository, BookMockRepository>();
-            services.AddSingleton<IUserRepository, UserMockRepository>();
+            services.AddTransient<IArticleRepository, ArticleSqliteRepository>();
+            services.AddTransient<IBookRepository, BookSqliteRepository>();
+            services.AddTransient<IUserRepository, UserSqliteRepository>();
     }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

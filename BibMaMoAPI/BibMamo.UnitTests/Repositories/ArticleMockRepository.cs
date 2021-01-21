@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BibMaMo.Infrastructure.Repositories
+namespace BibMaMo.UnitTests.Repositories
 {
 
   public class ArticleMockRepository:IArticleRepository
@@ -22,22 +22,22 @@ namespace BibMaMo.Infrastructure.Repositories
       {
         repo.Add(new Article
         {
-          Handle = x.ToString(),
+          ArticleId = x,
           HtmlContent = $"Contenido del articulo {x}",
           MainImageUrl = $"tapa{x}.jpg",
           Title = $"Libro {x}",
-          Tags = "coleccion"
+          Tags = "some"
         });
       }
       for (int x = 0; x < 10; x++)
       {
         repo.Add(new Article
         {
-          Handle = (x + 10).ToString(),
+          ArticleId = (x + 10),
           HtmlContent = $"Contenido del articulo {x + 10}",
           MainImageUrl = $"nuestros{x}.jpg",
           Title = $"Escritor {x}",
-          Tags = "nuestros"
+          Tags = "tags"
         });
       }
       return repo;
@@ -46,22 +46,22 @@ namespace BibMaMo.Infrastructure.Repositories
 
     public Task<Article> Insert(Article item)
     {
-      item.Handle = Guid.NewGuid().ToString();
+      item.ArticleId = MockRepo.Count;
       MockRepo.Add(item);
       
       return Task.FromResult(item);
     }
 
-    public Task Remove(string handle)
+    public Task Remove(int id)
     {
-      var item = GetItemOrThrow(handle);
+      var item = GetItemOrThrow(id);
       MockRepo.Remove(item);
       return Task.CompletedTask;
     }
 
-    public Task<Article> GetSingle(string handle)
+    public Task<Article> GetSingle(int id)
     {
-      return Task.FromResult(GetItemOrThrow(handle));
+      return Task.FromResult(GetItemOrThrow(id));
     }
 
     public Task<IEnumerable<Article>> Get()
@@ -83,9 +83,9 @@ namespace BibMaMo.Infrastructure.Repositories
       return Task.FromResult(items);
 
     }
-    private Article GetItemOrThrow(string handle)
+    private Article GetItemOrThrow(int id)
     {
-      var item = MockRepo.Find(x => x.Handle.Equals(handle));
+      var item = MockRepo.Find(x => x.ArticleId.Equals(id));
       if(item == null)
       {
         throw new ItemNotFoundException();
@@ -108,7 +108,7 @@ namespace BibMaMo.Infrastructure.Repositories
 
     public Task Replace(Article item)
     {
-      var oldArticle = GetItemOrThrow(item.Handle);
+      var oldArticle = GetItemOrThrow(item.ArticleId);
       var oldArticleIndex = MockRepo.IndexOf(oldArticle);
       MockRepo[oldArticleIndex] = item;
       return Task.CompletedTask;

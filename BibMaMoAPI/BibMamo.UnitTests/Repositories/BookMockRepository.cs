@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BibMaMo.Infrastructure.Repositories
+namespace BibMaMo.UnitTests.Repositories
 {
 
   public class BookMockRepository : IBookRepository
@@ -22,7 +22,7 @@ namespace BibMaMo.Infrastructure.Repositories
       {
         repo.Add(new Book
         {
-          Handle = x.ToString(),
+          BookId = x,
           Author = $"Autor {x}",
           Title = $"Libro {x}",
           Tags = "",
@@ -40,10 +40,10 @@ namespace BibMaMo.Infrastructure.Repositories
       {
         repo.Add(new Book
         {
-          Handle = x.ToString(),
+          BookId = x,
           Author = $"Autor {x}",
           Title = $"Libro {x}",
-          Tags = "tag1",
+          Tags = "some",
           Descriptor = "cuentos",
           Edition = 2000 + x,
           ISBN = Guid.NewGuid().ToString(),
@@ -58,10 +58,10 @@ namespace BibMaMo.Infrastructure.Repositories
       {
         repo.Add(new Book
         {
-          Handle = x.ToString(),
+          BookId = x,
           Author = $"Autor {x}",
           Title = $"Libro {x}",
-          Tags = "tag2",
+          Tags = "tags",
           Descriptor = "poesia",
           Edition = 2000 + x,
           ISBN = Guid.NewGuid().ToString(),
@@ -78,22 +78,22 @@ namespace BibMaMo.Infrastructure.Repositories
 
     public Task<Book> Insert(Book book)
     {
-      book.Handle = Guid.NewGuid().ToString();
+      book.BookId = new Random().Next(1, 100);
       MockRepo.Add(book);
 
       return Task.FromResult(book);
     }
 
-    public Task Remove(string handle)
+    public Task Remove(int id)
     {
-      var book = GetItemOrThrow(handle);
+      var book = GetItemOrThrow(id);
       MockRepo.Remove(book);
       return Task.CompletedTask;
     }
 
-    public Task<Book> GetSingle(string handle)
+    public Task<Book> GetSingle(int id)
     {
-      return Task.FromResult(GetItemOrThrow(handle));
+      return Task.FromResult(GetItemOrThrow(id));
     }
 
     public Task<IEnumerable<Book>> Get()
@@ -115,9 +115,9 @@ namespace BibMaMo.Infrastructure.Repositories
       return Task.FromResult(items);
 
     }
-    private Book GetItemOrThrow(string handle)
+    private Book GetItemOrThrow(int id)
     {
-      var book = MockRepo.Find(x => x.Handle.Equals(handle));
+      var book = MockRepo.Find(x => x.BookId.Equals(id));
       if (book == null)
       {
         throw new ItemNotFoundException();
@@ -140,7 +140,7 @@ namespace BibMaMo.Infrastructure.Repositories
 
     public Task Replace(Book book)
     {
-      var oldBook = GetItemOrThrow(book.Handle);
+      var oldBook = GetItemOrThrow(book.BookId);
       var oldBookIndex = MockRepo.IndexOf(oldBook);
       MockRepo[oldBookIndex] = book;
       return Task.CompletedTask;

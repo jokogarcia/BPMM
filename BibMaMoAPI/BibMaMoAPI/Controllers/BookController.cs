@@ -12,15 +12,15 @@ namespace BibMaMo.Api.Controllers
   public class BookController : ControllerBase
   {
     IBookRepository _repository;
-    public BookController(IBookRepository articleRepostitory)
+    public BookController(IBookRepository repository)
     {
-      _repository = articleRepostitory;
+      _repository = repository;
     }
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-      var articles = await _repository.Get();
-      return Ok(articles);
+      var books = await _repository.Get();
+      return Ok(books);
     }
     [HttpGet("tags/{tags}")]
     public async Task<IActionResult> GetFiltered(string tags)
@@ -31,32 +31,32 @@ namespace BibMaMo.Api.Controllers
       }
       try
       {
-        var articles = await _repository.GetFiltered(tags);
-        return Ok(articles);
+        var books = await _repository.GetFiltered(tags);
+        return Ok(books);
       }
       catch (ItemNotFoundException)
       {
         return NotFound();
       }
     }
-    [HttpGet("{handle}")]
-    public async Task<IActionResult> GetSingle(string handle)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetSingle(int id)
     {
       try
       {
-        return Ok(await _repository.GetSingle(handle));
+        return Ok(await _repository.GetSingle(id));
       }
       catch (ItemNotFoundException)
       {
         return NotFound();
       }
     }
-    [HttpDelete("{handle}")]
-    public async Task<IActionResult> Remove(string handle)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Remove(int id)
     {
       try
       {
-        await _repository.Remove(handle);
+        await _repository.Remove(id);
       }
       catch (ItemNotFoundException)
       {
@@ -65,18 +65,18 @@ namespace BibMaMo.Api.Controllers
       return Ok();
     }
     [HttpPost]
-    public async Task<IActionResult> Insert(Book article)
+    public async Task<IActionResult> Insert(Book item)
     {
-      article.Handle = string.Empty;
-      article = await _repository.Insert(article);
-      return Ok(article);
+      item.BookId = 0;
+      item = await _repository.Insert(item);
+      return Ok(item);
     }
     [HttpPut]
-    public async Task<IActionResult> Replace(Book article)
+    public async Task<IActionResult> Replace(Book item)
     {
       try
       {
-        await _repository.Replace(article);
+        await _repository.Replace(item);
         return Ok();
       }
       catch (ItemNotFoundException)

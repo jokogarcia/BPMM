@@ -12,35 +12,35 @@ namespace BibMaMo.Api.Controllers
   public class UserController : ControllerBase
   {
     IUserRepository _repository;
-    public UserController(IUserRepository articleRepostitory)
+    public UserController(IUserRepository userRepostitory)
     {
-      _repository = articleRepostitory;
+      _repository = userRepostitory;
     }
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-      var articles = await _repository.Get();
-      return Ok(articles);
+      var users = await _repository.Get();
+      return Ok(users);
     }
     
-    [HttpGet("{handle}")]
-    public async Task<IActionResult> GetSingle(string handle)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetSingle(int id)
     {
       try
       {
-        return Ok(await _repository.GetSingle(handle));
+        return Ok(await _repository.GetSingle(id));
       }
       catch (ItemNotFoundException)
       {
         return NotFound();
       }
     }
-    [HttpDelete("{handle}")]
-    public async Task<IActionResult> Remove(string handle)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Remove(int id)
     {
       try
       {
-        await _repository.Remove(handle);
+        await _repository.Remove(id);
       }
       catch (ItemNotFoundException)
       {
@@ -49,18 +49,18 @@ namespace BibMaMo.Api.Controllers
       return Ok();
     }
     [HttpPost]
-    public async Task<IActionResult> Insert(User article)
+    public async Task<IActionResult> Insert(User user)
     {
-      article.Handle = string.Empty;
-      article = await _repository.Insert(article);
-      return Ok(article);
+      user.UserId = 0;
+      user = await _repository.Insert(user);
+      return Ok(user);
     }
     [HttpPut]
-    public async Task<IActionResult> Replace(User article)
+    public async Task<IActionResult> Replace(User user)
     {
       try
       {
-        await _repository.Replace(article);
+        await _repository.Replace(user);
         return Ok();
       }
       catch (ItemNotFoundException)
