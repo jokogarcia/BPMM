@@ -1,8 +1,16 @@
-#galeria{
+ .options{
     display: flex;
+    flex-wrap: wrap;
+    justify-content:left;
+    align-items: center;
 }
-.child{
-    width:200px;
-    height: 200px;
-    
+ .element {
+    float: left;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none!important;
+    color:#ddd
+}
+.element:hover{
+    background-color: rgb(255, 153, 153);
 }

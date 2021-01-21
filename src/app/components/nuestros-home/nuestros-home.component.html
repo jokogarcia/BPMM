@@ -1,7 +1,9 @@
 <H2>Los Nuestros</H2>
 <p>Autores de la Provincia de La Rioja, por nacimiento o adopción, cuya obra transita nuestra provincia.</p>
 <section id="galeria">
-<ul>
-    <li *ngFor="let article of articles" class="child"><app-photo-article-view [article]="article"></app-photo-article-view></li>
-</ul>
+    <div class="options">
+        <div class="element" *ngFor="let article of articles" >
+            <app-photo-article-view [article]="article"></app-photo-article-view>
+        </div>
+    </div>
 </section>

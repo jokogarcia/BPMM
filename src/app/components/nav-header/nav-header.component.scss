@@ -4,30 +4,20 @@
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    background-color: #333;
 }
 .menu li a {
-    display: block;
-    padding: 15px 5px;
+    float: left;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color:#ddd
+    
+}
+.menu li a:hover {
+    background-color: #ddd;
+    color:black
 }
 .menu li.subitem a {
     padding: 15px;
-}
-.toggle {
-    order: 1;
-    font-size: 20px;
-}
-.item.button {
-    order: 2;
-}
-.item {
-    order: 3;
-    width: 100%;
-    text-align: center;
-    display: none;
-}
-.active .item {
-    display: block;
-}
-.button.secondary { /* divider between buttons and menu links */
-    border-bottom: 1px #444 solid;
 }
