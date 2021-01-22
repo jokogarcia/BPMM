@@ -14,6 +14,7 @@ import { NavHeaderComponent } from './components/nav-header/nav-header.component
 import { PhotoArticleViewComponent } from './reusable/photo-article-view/photo-article-view.component';
 import { ArticleViewComponent } from './components/article-view/article-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

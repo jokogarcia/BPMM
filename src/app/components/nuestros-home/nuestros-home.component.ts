@@ -14,7 +14,15 @@ export class NuestrosHomeComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.articles = this.articlesService.getArticlesWithTag("nuestros");
+    this.getArticles();
+  }
+  getArticles(){
+    this.articlesService.searchByTags("nuestros")
+    .subscribe(
+      articles =>{
+        this.articles=articles;
+      }
+    )
   }
 
 }

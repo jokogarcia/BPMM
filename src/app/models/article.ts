@@ -4,5 +4,5 @@ export class Article {
     public templateId?:string;
     public mainImageUrl?:string;
     public htmlContent:string;
-    public tags?:string;
+    public articleId:number;
 }
