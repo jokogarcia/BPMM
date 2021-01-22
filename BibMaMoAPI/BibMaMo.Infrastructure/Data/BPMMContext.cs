@@ -15,12 +15,16 @@ namespace BibMaMo.Infrastructure.Data
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+      var filename = "bpmm.sqlite";
       var homefolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-      var fullpath = Path.Combine(homefolder, "bpmm.sqlite");
+      var fullpath = Path.Combine(homefolder, filename);
+#if DEBUG
       optionsBuilder.UseSqlite($"Filename={fullpath}");
-
+#else
+      optionsBuilder.UseSqlite($"Filename=./{filename}");
+#endif
     }
-   
+
     public DbSet<Book> Books { get; set; }
     public DbSet<Article> Articles { get; set; }
     public DbSet<User> Users { get; set; }
