@@ -1,2 +1,123 @@
-<p>Biblioteca Popular de la Ciudad de La Rioja</p>
-<p>Con las puertas abiertas desde 1886.</p>
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+
+
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
+  <img class="w3-image" src="./assets/images/collage.jpg" alt="Collage" width="1500" height="800">
+</header>
+
+<!-- Page content -->
+<div class="w3-content w3-padding" style="max-width:1564px">
+
+  <!-- Project Section -->
+  <div class="w3-container w3-padding-32" id="projects">
+    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Proyectos</h3>
+  </div>
+
+  <div class="w3-row-padding" >
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container" (click)="navigateTo('coleccionlcdln')">
+        <div class="w3-display-topleft w3-black w3-padding">Colección "La Ciudad de Los Naranjos"</div>
+        <img src="./assets/images/coleccion.jpg" alt="House" style="width:100%">
+        <p>Colección de sello editorial propio de obras de autores riojanos -por nacimiento o adopción-, previamente inéditas o agotadas.</p>
+      </div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container" (click)="navigateTo('nuestros')">
+        <div class="w3-display-topleft w3-black w3-padding">"Los nuestros"</div>
+        <img src="./assets/images/nuestros.jpg" alt="House" style="width:100%">
+        <p>Pequeñas biografías de algunos de los escritores y poetas de nuestra provincia.</p>
+      </div>
+    </div>
+    <!-- <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+        <div class="w3-display-topleft w3-black w3-padding">Sector socios</div>
+        <img src="./assets/images/tapa4.jpg" alt="House" style="width:100%">
+      </div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-display-container">
+        <div class="w3-display-topleft w3-black w3-padding">Por más lectores</div>
+        <img src="./assets/images/tapa5.jpg" alt="House" style="width:100%">
+      </div>
+    </div> -->
+  </div>
+
+ 
+
+  <!-- About Section -->
+  <div class="w3-container w3-padding-32" id="about">
+    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">La Biblioteca</h3>
+    <p>La Biblioteca Popular Mariano Moreno está ubicada en el corazón de la Ciudad de La Rioja. Abrió sus puertas en el año 1886 y, desde entonces es un referente de la actividad cultural de la ciudad. Sostenida en el apoyo de sus socios y mecenas, provee acceso a materiales de esparcimiento y estudio a generaciones de riojanos. </p>
+    <p>La biblioteca es también un lugar de encuentro. El salón de lectura se transforma en espacio de reuniones, donde se llevan a cabo un gran número de conferencias, instalaciones artísticas y actividades pedagógicas.</p>
+  </div>
+
+  <div class="w3-row-padding">
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <img src="./assets/images/fachada.jpg" alt="Fachada" style="width:100%">
+      <h3>Edificio histórico </h3>
+      <p class="w3-opacity">Fachada</p>
+      <p>Ubicado en Peatonal 9 de Julio 59, el histórico edificio de la Biblioteca Popular Mariano Moreno es un punto de encuentro
+        cultural en la Ciudad de La Rioja.
+      </p>
+      <p><button class="w3-button w3-light-grey w3-block">Mas información</button></p>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <img src="./assets/images/salon_lectura.jpg" alt="Salon de lectura" style="width:100%">
+      <h3>Salón de lectura</h3>
+      <p class="w3-opacity">Espacio</p>
+      <p>Público de todas las edades utiliza este espacio común para la lectura y el estudio. Además, en ocasiones especiales, este mismo espacio se transforma para albergar conferencias, espectáculos y reuniones de variada índole.</p>
+      <p><button class="w3-button w3-light-grey w3-block">Más información</button></p>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <img src="./assets/images/rincon_inf.jpg" alt="Rincon infantil" style="width:100%">
+      <h3>Rincón infantil</h3>
+      <p class="w3-opacity">Espacio</p>
+      <p>Los más chicos y chicas tienen su lugar en la biblioteca. En el Rincón Infantil tienen a su alcance para explorar libremente un gran número de libros infantiles, los cuales son renovados permanentemente. Este espacio también recibe periodicamente visitas de jardines de infantes y escuelas primarias de toda la provincia. </p>
+      <p><button class="w3-button w3-light-grey w3-block">Más información</button></p>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <img src="./assets/images/bib_ped.jpg" alt="Biblioteca Pedagógica" style="width:100%">
+      <h3>Biblioteca Pedagógica "Rosario Vera Peñaloza"</h3>
+      <p class="w3-opacity">Biblioteca</p>
+      <p>Una colección de literatura técnica relacionada con la pedagogía y la enseñanza. Es consultada frecuentemente por estudiantes, docentes y profesionales del gremio.</p>
+      <p><button class="w3-button w3-light-grey w3-block">Más información</button></p>
+    </div>
+    
+  </div>
+
+  <!-- Contact Section -->
+  <div class="w3-container w3-padding-32" id="contact">
+    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Contacto</h3>
+    <p>Información de contacto:</p>
+    <p>Dirección: 9 de Julio 59 - B° Centro. La Rioja, La Rioja (CP 5300)</p>
+    <p>Email: <a href="mailto:bibliotecamarianomoreno@gmail.com">bibliotecamarianomoreno@gmail.com</a></p>
+    <p>Teléfono: (0380) 4427501</p>
+    <p>Celular / Whatsapp: TBD</p>
+    
+  </div>
+  
+<!-- Image of location/map -->
+<div class="w3-container">
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3475.5128029994353!2d-66.85729088445599!3d-29.413805182116143!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9427da34dcdd628b%3A0x82321727cb905d2!2sBiblioteca%20Popular%20Mariano%20Moreno!5e0!3m2!1ses!2sar!4v1611338205243!5m2!1ses!2sar" 
+  width="800" height="600" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+</div>
+
+<!-- End page content -->
+</div>
+
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-16">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+</footer>
+
+</body>
+</html>
