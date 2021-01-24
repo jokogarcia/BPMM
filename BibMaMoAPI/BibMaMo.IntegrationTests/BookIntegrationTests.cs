@@ -12,6 +12,7 @@ using BibMaMo.Core.Entities;
 using Newtonsoft.Json;
 using System.Net;
 using System.Linq;
+using System.IO;
 
 namespace BibMaMo.IntegrationTests
 {
@@ -141,7 +142,11 @@ namespace BibMaMo.IntegrationTests
         InventoryId = $"INV{(300 + rnd)}",
         Publisher = rnd % 2 == 0 ? "Alfaguara" : "Kapeluz",
         Section = rnd % 2 == 0 ? "Seccion A" : "Seccion B",
-        Summary = "Lorem ipsum doloor."
+        Summary = "Lorem ipsum doloor.",
+        Quantity = rnd + 32,
+        Collection = "rnd" + rnd,
+        Comment="",
+        Libri=""
       };
       return testItem;
     }
@@ -252,6 +257,24 @@ namespace BibMaMo.IntegrationTests
       }
       throw new Exception();
     }
+    //[Fact]
+    //public void A0InsertItem_BigBlob()
+    //{
+    //  //Prepare
+    //  var filepath = @"C:\Users\Joaquin\source\repos\BPMM_Catalog_Converter\BPMM_Catalog_Converter\bin\Debug\netcoreapp3.1\output.json";
+    //  var bigJson = File.ReadAllText(filepath); 
+    //  var bookList = JsonConvert.DeserializeObject<List<Book>>(bigJson);
+    //  bookList.ForEach(x => {
+    //    var requestContent = JsonConvert.SerializeObject(x);
+
+    //    //act
+    //    var response = client.PostAsync("/api/book/", new StringContent(requestContent, System.Text.Encoding.UTF8, "application/json")).Result;
+
+    //    //assert
+    //    Assert.True(response.IsSuccessStatusCode);
+    //  });
+    
+    //}
   }
 
 }
