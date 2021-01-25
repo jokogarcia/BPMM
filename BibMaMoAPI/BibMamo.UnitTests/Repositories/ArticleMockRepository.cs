@@ -23,6 +23,8 @@ namespace BibMaMo.UnitTests.Repositories
         repo.Add(new Article
         {
           ArticleId = x,
+          Subtitle = "A subtitle",
+          Author = "Fake author",
           HtmlContent = $"Contenido del articulo {x}",
           MainImageUrl = $"tapa{x}.jpg",
           Title = $"Libro {x}",
@@ -34,6 +36,8 @@ namespace BibMaMo.UnitTests.Repositories
         repo.Add(new Article
         {
           ArticleId = (x + 10),
+          Subtitle = "A subtitle",
+          Author = "Fake author",
           HtmlContent = $"Contenido del articulo {x + 10}",
           MainImageUrl = $"nuestros{x}.jpg",
           Title = $"Escritor {x}",

@@ -1,6 +1,6 @@
 <a [routerLink]="['/article',article.articleId]">
     <div>
         <img src="./assets/images/{{article.mainImageUrl}}"/>
-        <h2>{{article.title}}</h2>
+        <h2 [innerHtml]="article.title"></h2>
     </div>
 </a>

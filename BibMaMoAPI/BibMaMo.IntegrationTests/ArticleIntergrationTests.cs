@@ -131,6 +131,8 @@ namespace BibMaMo.IntegrationTests
       Article testItem = new Article()
       {
         Title = $"Test title {rnd}",
+        Subtitle ="A subtitle",
+        Author="Fake author",
         HtmlContent = $"<p>This is randomly generated <b>HTML</b> content id <i>{rnd}</i>",
         ArticleId = id,
         MainImageUrl = $"test{rnd}.jpg",

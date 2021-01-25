@@ -1,1 +1,20 @@
-<p>coleccion-home works!</p>
+<div class="w3-content w3-padding" style="max-width:1564px">
+    <H1>Colección "La Ciudad de los Naranjos"</H1>
+    <p>
+        La “Colección La Ciudad de los Naranjos” fue creada en 1998, cuando la <strong>Biblioteca</strong><strong> Popular</strong><strong> “Mariano Moreno” </strong>aceptó la <strong>donación con cargo</strong> efectuada por el <strong>Dr. Ricardo Mercado Luna</strong>, destinada a financiar la publicación de clásicos riojanos inéditos o agotados. No quiso entonces el donante que su nombre trascendiera, y, en agradecimiento, la Comisión Directiva decidió nominar ese emprendimiento editorial con el título de una de las obras de Mercado Luna, por entender que de ese modo –a la vez que se nombraba a La Rioja– se homenajeaba al creador de la colección.
+Hoy, el autor de <em>La ciudad de los naranjos</em>, no está físicamente entre nosotros, pero su amor a la tierra natal continúa vivo, no sólo en las páginas que dejó escritas, sino también en este noble gesto de propiciar la reedición de la obra de otros autores, antes que la suya propia.
+La primera etapa de este emprendimiento editorial, dio como resultado la publicación de trece volúmenes de “clásicos”, más dos tomos dedicados a la “difusión de autores noveles en atención a su mérito, determinado mediante concursos”, tal como <strong>Ricardo Mercado Luna </strong>lo dejara estipulado.
+En el 2006 se inicia una nueva etapa que hemos dado en llamar SEGUNDA SERIE DE CLÁSICOS, y que se abre con las obras de un gran maestro y precursor de los estudios folklóricos de la provincia: el Dr. Juan Zacarías Agüero Vera.
+</p>
+<hr />
+
+<h2>Títulos</h2>
+    
+    <section id="galeria">
+        <div class="options">
+            <div class="element" *ngFor="let article of articles" >
+                <app-photo-article-view [article]="article"></app-photo-article-view>
+            </div>
+        </div>
+    </section>
+</div>

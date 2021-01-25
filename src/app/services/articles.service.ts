@@ -3,7 +3,8 @@ import {Article} from '../models/article'
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
-const baseURL ='http://localhost:57035/api/article';
+//const baseURL ='http://localhost:57035/api/article';
+const baseURL ='https://bpmm.azurewebsites.net/api/article';
 
 @Injectable({
   providedIn: 'root'

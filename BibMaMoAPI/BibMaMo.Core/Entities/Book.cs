@@ -21,7 +21,9 @@ namespace BibMaMo.Core.Entities
     public string Collection { get; set; }
     public string Descriptor { get; set; }
     public string Tags { get; set; }
-
+    public string Libri { get; set; }
+    public int Quantity { get; set; }
+    public string Comment { get; set; }
 
 
   }

@@ -23,6 +23,8 @@ namespace BibMamo.UnitTests
         Title = $"Test title {rnd}",
         HtmlContent = $"<p>This is randomly generated <b>HTML</b> content id <i>{rnd}</i>",
         ArticleId = id,
+        Subtitle = "A subtitle",
+        Author = "Fake author",
         MainImageUrl = $"test{rnd}.jpg",
         Tags = $"some,tags,test,rnd{rnd}"
       };
