@@ -5,4 +5,6 @@ export class Article {
     public mainImageUrl?:string;
     public htmlContent:string;
     public articleId:number;
+    public author:string;
+    public subtitle:string;
 }
