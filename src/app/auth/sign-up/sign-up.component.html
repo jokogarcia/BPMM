@@ -1,0 +1,12 @@
+<section>
+    <form fxLayout="column" fxLayoutAlign="center center" #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <mat-form-field>
+            <input type="email" matInput placeholder="Email" ngModule name="email" email required>
+            
+        </mat-form-field>
+        <mat-form-field>
+            <input type="password" matInput placeholder="Contraseña" ngModule name="password" required minlength="6">
+            <mat-hint>Debe ser al menos 6 caracteres</mat-hint>
+        </mat-form-field>
+        <button mat-raised-button type="submit">Registrarse</button>
+    </form>
