@@ -1,7 +1,7 @@
 <div class="w3-content w3-padding" style="max-width:1564px">
-    <h1>{{article.title}}</h1>
-    <h2 class="article_subtitle" *ngIf="article.subtitle != ''">{{article.subtitle}}</h2>
-    <h3 class="article_author" *ngIf="article.author != ''">por {{article.author}}</h3>
+    <h1 [innerHtml]="article.title"></h1>
+    <h2 class="article_subtitle" *ngIf="article.subtitle">{{article.subtitle}}</h2>
+    <h3 class="article_author" *ngIf="article.author">por {{article.author}}</h3>
     <img class="article_main_image"  src="./assets/images/{{article.mainImageUrl}}">
     <div class="content" [innerHTML]="content"></div>
 </div>
