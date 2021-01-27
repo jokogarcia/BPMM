@@ -1,8 +1,10 @@
+using BibMaMo.Core.DTOs;
 using BibMaMo.Core.Entities;
 using BibMaMo.Core.Exceptions;
 using BibMaMo.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -103,7 +105,7 @@ namespace BibMaMo.UnitTests.Repositories
       return Task.FromResult(items);
 
     }
-    public Task<IEnumerable<Book>> GetFiltered(string tags)
+    public Task<IEnumerable<Book>> GetFilteredWithTags(string tags)
     {
 
       IEnumerable<Book> items;
@@ -144,6 +146,51 @@ namespace BibMaMo.UnitTests.Repositories
       var oldBookIndex = MockRepo.IndexOf(oldBook);
       MockRepo[oldBookIndex] = book;
       return Task.CompletedTask;
+    }
+    public async Task<FilteredBooksResult> GetFiltered(string author, string title, int pagesize, int pagenumber)
+    {
+      var filtered = (await Get())
+        .Where(x => StringContains(x.Author, author))
+        .Where(x => StringContains(x.Title, title));
+
+      return new FilteredBooksResult
+      {
+        Results = filtered.Skip(pagenumber * pagesize).Take(pagesize),
+        TotalCount = filtered.Count()
+      };
+    }
+    private bool StringContains(string bigString, string littleString)
+    {
+      if (string.IsNullOrEmpty(littleString))
+      {
+        return true;
+      }
+      if (string.IsNullOrEmpty(bigString))
+      {
+        return false;
+      }
+      bigString = RemoveDiacritics(bigString.ToLower());
+      littleString = RemoveDiacritics(littleString.ToLower());
+      return bigString.Contains(littleString);
+    }
+    private string RemoveDiacritics(string s)
+    {
+      String normalizedString = s.Normalize(NormalizationForm.FormD);
+      StringBuilder stringBuilder = new StringBuilder();
+
+      for (int i = 0; i < normalizedString.Length; i++)
+      {
+        Char c = normalizedString[i];
+        if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+          stringBuilder.Append(c);
+      }
+
+      return stringBuilder.ToString();
+    }
+
+    public IEnumerable<string> GetCategories()
+    {
+      throw new NotImplementedException();
     }
   }
 }

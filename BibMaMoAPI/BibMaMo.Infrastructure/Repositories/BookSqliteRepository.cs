@@ -1,3 +1,4 @@
+using BibMaMo.Core.DTOs;
 using BibMaMo.Core.Entities;
 using BibMaMo.Core.Exceptions;
 using BibMaMo.Core.Interfaces;
@@ -9,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BibMaMo.Core.Extensions;
+using System.Globalization;
 
 namespace BibMaMo.Infrastructure.Repositories
 {
@@ -26,7 +29,7 @@ namespace BibMaMo.Infrastructure.Repositories
       }
     }
 
-    public async Task<IEnumerable<Book>> GetFiltered(string tags)
+    public async Task<IEnumerable<Book>> GetFilteredWithTags(string tags)
     {
       using (var context = new BPMMContext())
       {
@@ -115,5 +118,56 @@ namespace BibMaMo.Infrastructure.Repositories
       }
 
     }
+
+    public async Task<FilteredBooksResult> GetFiltered(string author, string title, int pagesize, int pagenumber)
+    {
+      var filtered = (await Get())
+        .Where(x => StringContains(x.Author, author))
+        .Where(x => StringContains(x.Title, title));
+
+      return new FilteredBooksResult
+      {
+        Results = filtered.Skip(pagenumber * pagesize).Take(pagesize),
+        TotalCount = filtered.Count()
+      };
+    }
+    private bool StringContains(string bigString, string littleString)
+    {
+      if (string.IsNullOrEmpty(littleString))
+      {
+        return true;
+      }
+      if (string.IsNullOrEmpty(bigString))
+      {
+        return false;
+      }
+      bigString = RemoveDiacritics(bigString.ToLower());
+      littleString = RemoveDiacritics(littleString.ToLower());
+      return bigString.Contains(littleString);
+    }
+    private string RemoveDiacritics(string s)
+    {
+      String normalizedString = s.Normalize(NormalizationForm.FormD);
+      StringBuilder stringBuilder = new StringBuilder();
+
+      for (int i = 0; i < normalizedString.Length; i++)
+      {
+        Char c = normalizedString[i];
+        if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+          stringBuilder.Append(c);
+      }
+
+      return stringBuilder.ToString();
+    }
+    public async Task<IEnumerable<string>> GetCategories()
+    {
+      using (var context = new BPMMContext())
+      {
+        var result = context.Books.AsQueryable().Select(book => book.Section).Distinct();
+        return result.ToList();
+      }
+    }
+
+    
   }
 }
