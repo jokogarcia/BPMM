@@ -192,5 +192,11 @@ namespace BibMaMo.UnitTests.Repositories
     {
       throw new NotImplementedException();
     }
+
+    async Task<IEnumerable<string>> IBookRepository.GetCategories()
+    {
+      var result = (await this.Get()).Select(book => book.Section).Distinct();
+      return result.ToList();
+    }
   }
 }
