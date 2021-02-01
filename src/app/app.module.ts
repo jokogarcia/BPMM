@@ -15,6 +15,13 @@ import { PhotoArticleViewComponent } from './reusable/photo-article-view/photo-a
 import { ArticleViewComponent } from './components/article-view/article-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HttpClientModule } from '@angular/common/http';
+import { MaterialModule } from './material.module';
+import { SignInComponent } from './auth/sign-in/sign-in.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component'
+import { FlexLayoutModule} from '@angular/flex-layout';
+import { FormsModule } from '@angular/forms';
+import { AuthService} from './auth/auth.service'
+
 
 
 @NgModule({
@@ -29,15 +36,20 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     NavHeaderComponent,
     PhotoArticleViewComponent,
-    ArticleViewComponent
+    ArticleViewComponent,
+    SignInComponent,
+    SignUpComponent
     ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    MaterialModule,
+    FlexLayoutModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

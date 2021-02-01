@@ -67,7 +67,7 @@ namespace BibMaMo.IntegrationTests
       Assert.Equal(id, contentObj.BookId);
     }
     [Theory]
-    [InlineData(999)]
+    [InlineData(9999)]
     public async Task GetSingle_WithInvalidHandle_ReturnsNotFound(int id)
     {
       //Act

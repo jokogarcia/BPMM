@@ -3,7 +3,12 @@ using BibMaMo.Core.Exceptions;
 using BibMaMo.Core.Interfaces;
 using BibMaMo.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using System;
+using System.Text;
+using System.Globalization;
 
 namespace BibMaMo.Api.Controllers
 {
@@ -31,7 +36,7 @@ namespace BibMaMo.Api.Controllers
       }
       try
       {
-        var books = await _repository.GetFiltered(tags);
+        var books = await _repository.GetFilteredWithTags(tags);
         return Ok(books);
       }
       catch (ItemNotFoundException)
@@ -85,6 +90,17 @@ namespace BibMaMo.Api.Controllers
       }
 
     }
+    [HttpGet("filtered")]
+    public async Task<IActionResult> Search(string author = "", string title = "", string categories="",int pageSize = 25, int pageNumber = 0)
+    {
+      return Ok(await _repository.GetFiltered(author, title, categories, pageSize, pageNumber));
+    }
+    [HttpGet("categories")]
+    public Task<IEnumerable<string>> GetCategories()
+    {
+      return _repository.GetCategories();
+    }
+
 
   }
 }
