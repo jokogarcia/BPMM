@@ -91,9 +91,9 @@ namespace BibMaMo.Api.Controllers
 
     }
     [HttpGet("filtered")]
-    public async Task<IActionResult> Search(string author = "", string title = "", int pageSize = 25, int pageNumber = 0)
+    public async Task<IActionResult> Search(string author = "", string title = "", string categories="",int pageSize = 25, int pageNumber = 0)
     {
-      return Ok(await _repository.GetFiltered(author, title, pageSize, pageNumber));
+      return Ok(await _repository.GetFiltered(author, title, categories, pageSize, pageNumber));
     }
     [HttpGet("categories")]
     public Task<IEnumerable<string>> GetCategories()

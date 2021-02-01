@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTableModule } from '@angular/material/table';
 import {MatCardModule} from '@angular/material/card';
+import { MatSortModule } from '@angular/material/sort'
 
 
 
@@ -15,7 +16,9 @@ const modules =[MatButtonModule,
     MatAutocompleteModule,
     MatTableModule,
     MatPaginatorModule,
-    MatCardModule
+    MatCardModule,
+    MatSortModule
+    
 ];
 
 @NgModule({

@@ -31,11 +31,27 @@ namespace BibMaMo.UnitTests.Repositories
         MockRepo.Add(new Loan
         {
           LoanId = x,
-         BookId= gen.Next(0,10),
-         UserId = gen.Next(0, 10),
-         BorrowDate = (DateTime)loanDate,
-         ReturnDueDate=(DateTime)dueDate,
-         ReturnedDate=returnDate
+          BookId = x,
+          UserId = x,
+          BorrowDate = (DateTime)loanDate,
+          ReturnDueDate = (DateTime)dueDate,
+          ReturnedDate = returnDate
+
+        });
+      }
+      for (int x = 10; x < 20; x++)
+      {
+        var loanDate = RandomDay(DateTime.Now.AddYears(-1));
+        var dueDate = RandomDay(loanDate);
+        DateTime? returnDate = (gen.Next(100) >= 50 ? RandomDay(loanDate) : null);
+        MockRepo.Add(new Loan
+        {
+          LoanId = x,
+          BookId = gen.Next(0, 10),
+          UserId = gen.Next(0, 10),
+          BorrowDate = (DateTime)loanDate,
+          ReturnDueDate = (DateTime)dueDate,
+          ReturnedDate = returnDate
 
         });
       }
@@ -90,13 +106,13 @@ namespace BibMaMo.UnitTests.Repositories
     public async Task<IEnumerable<Loan>> GetByBook(int bookId)
     {
       var allItems = await this.Get();
-      return allItems.Where(x => x.BookId == bookId);
+      return allItems.Where(x => x.BookId == bookId).ToList();
     }
 
     public async Task<IEnumerable<Loan>> GetByUser(int userId)
     {
       var allItems = await this.Get();
-      return allItems.Where(x => x.UserId == userId);
+      return allItems.Where(x => x.UserId == userId).ToList();
     }
   }
 }

@@ -13,7 +13,7 @@ namespace BibMaMo.Core.Interfaces
     Task Remove(int id);
     Task<Book> Insert(Book article);
     Task Replace(Book article);
-    Task<FilteredBooksResult> GetFiltered(string author, string title, int pagesize, int pagenumber);
+    Task<FilteredBooksResult> GetFiltered(string author, string title, string categories, int pagesize, int pagenumber);
     Task<IEnumerable<string>> GetCategories();
   }
 }

@@ -193,6 +193,74 @@ namespace BibMamo.UnitTests
     }
     #endregion
 
+    #region GetByUserMethodTests
+    [Fact]
+    public void GetByUser_UnknownHandlePassed_ReturnsEmptyList()
+    {
+      // Act
+      var result = _controller.GetByUserId(-1).Result as OkObjectResult;
+      // Assert
+      Assert.IsType<OkObjectResult>(result);
+      Assert.IsType<List<Loan>>(result.Value);
+      Assert.Empty(((List<Loan>)result.Value));
+    }
+
+    [Fact]
+    public void GetByUser_ExistingHandlePassed_ReturnsOkResult()
+    {
+      // Arrange
+      var id = 2;
+      // Act
+      var okResult = _controller.GetByUserId(id);
+      // Assert
+      Assert.IsType<OkObjectResult>(okResult.Result);
+    }
+    [Fact]
+    public void GetByUser_ExistingHandlePassed_ReturnsRightItem()
+    {
+      // Arrange
+      var testHandle = 2;
+      // Act
+      var okResult = _controller.GetByUserId(testHandle).Result as OkObjectResult;
+      // Assert
+      Assert.IsType<List<Loan>>(okResult.Value);
+    }
+    #endregion
+
+    #region GetByBookMethodTests
+    [Fact]
+    public void GetByBook_UnknownHandlePassed_ReturnsEmptyList()
+    {
+      // Act
+      var result = _controller.GetByBookId(-1).Result as OkObjectResult;
+      // Assert
+      Assert.IsType<OkObjectResult>(result);
+      Assert.IsType<List<Loan>>(result.Value);
+      Assert.Empty(((List<Loan>)result.Value));
+
+    }
+
+    [Fact]
+    public void GetByBook_ExistingHandlePassed_ReturnsOkResult()
+    {
+      // Arrange
+      var id = 5;
+      // Act
+      var okResult = _controller.GetByBookId(id);
+      // Assert
+      Assert.IsType<OkObjectResult>(okResult.Result);
+    }
+    [Fact]
+    public void GetByBook_ExistingHandlePassed_ReturnsRightItem()
+    {
+      // Arrange
+      var testHandle = 5;
+      // Act
+      var okResult = _controller.GetByBookId(testHandle).Result as OkObjectResult;
+      // Assert
+      Assert.IsType<List<Loan>>(okResult.Value);
+    }
+    #endregion
 
   }
 }

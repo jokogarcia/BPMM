@@ -119,11 +119,12 @@ namespace BibMaMo.Infrastructure.Repositories
 
     }
 
-    public async Task<FilteredBooksResult> GetFiltered(string author, string title, int pagesize, int pagenumber)
+    public async Task<FilteredBooksResult> GetFiltered(string author, string title, string categories, int pagesize, int pagenumber)
     {
       var filtered = (await Get())
         .Where(x => StringContains(x.Author, author))
-        .Where(x => StringContains(x.Title, title));
+        .Where(x => StringContains(x.Title, title))
+        .Where(x => StringContains(x.Section, categories));
 
       return new FilteredBooksResult
       {
