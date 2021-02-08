@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 import {CatalogoComponent} from './components/catalogo/catalogo.component';
 import {AdminHomeComponent} from './components/admin-home/admin-home.component';
 import {ColeccionHomeComponent} from './components/coleccion-home/coleccion-home.component';
@@ -19,13 +19,20 @@ const routes: Routes = [
   {path:'socios', component:SociosHomeComponent , canActivate:[AuthGuard]},
   {path:'nuestros', component:NuestrosHomeComponent },
   {path:'article/:handle', component:ArticleViewComponent},
-  {path:'', component:HomeComponent },
+  {path:'home', component:HomeComponent },
+  {path:'', redirectTo:'home', pathMatch:'full'},
   {path:'login', component:SignInComponent },
   {path:'register', component:SignUpComponent },
 ];
 
+const routerOptions: ExtraOptions = {
+  scrollPositionRestoration: 'enabled',
+  anchorScrolling: 'enabled',
+  onSameUrlNavigation:"reload"
+};
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, routerOptions)],
   exports: [RouterModule],
   providers:[AuthGuard]
 })

@@ -23,5 +23,9 @@ export class NavHeaderComponent implements OnInit, OnDestroy{
   callLogout(){
     this.authService.logout();
   }
-
+  scrollTo(id:string):void{
+    console.log(`scrolling to ${id}`);
+    let el = document.getElementById(id);
+    el.scrollIntoView();
+  }
 }

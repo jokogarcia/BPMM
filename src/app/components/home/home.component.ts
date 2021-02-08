@@ -21,4 +21,5 @@ export class HomeComponent implements OnInit {
       document.querySelector('#' + this.fragment).scrollIntoView();
     } catch (e) { }
   }
+
 }
