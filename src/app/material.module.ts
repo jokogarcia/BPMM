@@ -10,6 +10,9 @@ import { MatSortModule } from '@angular/material/sort'
 
 
 import {MatPaginatorModule} from '@angular/material/paginator'; 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 const modules =[MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
@@ -17,7 +20,11 @@ const modules =[MatButtonModule,
     MatTableModule,
     MatPaginatorModule,
     MatCardModule,
-    MatSortModule
+    MatSortModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    
     
 ];
 

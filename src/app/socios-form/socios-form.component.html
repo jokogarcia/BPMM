@@ -1,0 +1,104 @@
+<div class="w3-content w3-padding" style="max-width:1564px">
+    <H1>Quiero ser socio</H1>
+    <p>En la Biblioteca Popular Mariano Moreno siempre estamos encantados de recibir nuevos socios. Asociándote nos ayudás a 
+        cumplir nuestra misión de acercar la lectura todos los ciudadanos y ciudadanas de La Rioja.
+        Además podes acceder a los siguientes beneficios exclusivos para socios:</p>
+        <ul>
+            <li>Préstamo de libros</li>
+            <li>Participación en asamblea general</li>
+            <li>Recibir invitaciones a eventos realizados en la Biblioteca</li>
+        </ul>
+    <p>Existen tres niveles de socio, que se diferencian por el monto de la cuota societaria. Todos los socios acceden a los mismos beneficios.</p>
+    <ul>
+        <li><b>Activo / Activa</b>. Socio estándar, mayor de 18 años. Cuota societaria mensual $??</li>
+        <li>Cadete. Socio menor de 18 años. Cuota societaria mensual $??</li>
+        <li>Benefactor / Benefactora. El socio benefactor se compromete voluntariamente a un aporte mayor al Socio Activo.</li>
+        
+    </ul>
+    <p>Llená el siguiente formulario de <i>Solicitud de Ingreso como Socio</i>, para comenzar el proceso de ingreso. Con estos datos se generará una 
+        nota de solicitud dirigida a la <B>Comision directiva</B>, la cual podrás leer antes de enviar. La misma será revisada y respondida al email
+        ingresado en el formulario, generalmente dentro de los 10 dìas hàbiles.
+        <p> Como asociación civil, la Biblioteca se reserva el derecho de denegar cualquier pedido de asociación, pero esto raramente ocurre. 
+            Ningún pago es requerido hasta que la solicitud es aprobada.?</p>
+<hr />
+<form  #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <div fxLayout = 'row wrap' fxLayoutGap="20px">
+        <p fxFlex="grow">Datos personales</p>
+        <mat-form-field fxFlex='30'> 
+            <input matInput placeholder="Apellido" [(ngModel)]="solicitud.apellido" name="apellido" required>
+        </mat-form-field>
+        <mat-form-field fxFlex='30'>
+            <input matInput placeholder="Nombre" [(ngModel)]="solicitud.nombre" name="nombre" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input type="email" matInput placeholder="Email" [(ngModel)]="solicitud.email" name="email" email required>
+        </mat-form-field>
+    </div>
+    <div fxLayout = 'row wrap' fxLayoutGap="20px">
+        <mat-form-field appearance="fill" fxFlex='nogrow'>
+            <mat-label>Tipo de documento</mat-label>
+            <select matNativeControl [(ngModel)]="solicitud.dni_tipo" name="dni_tipo">
+              <option>D.N.I.</option>
+              <option>L.C.</option>
+              <option>L.C.</option>
+              <option>C.I.</option>
+            </select>
+          </mat-form-field>
+        <mat-form-field fxFlex='nogrow'>
+            <input numbersOnly matInput placeholder="Número de documento" [(ngModel)]="solicitud.dni_num"  name="dni_num"  required>
+        </mat-form-field>
+        <mat-form-field fxFlex='nogrow'> 
+            <input matInput placeholder="Fecha de Nacimiento" [(ngModel)]="solicitud.fnac" name="fnac" required [matDatepicker]="fnacPicker">
+            <mat-datepicker-toggle matSuffix [for]="fnacPicker"></mat-datepicker-toggle>
+            <mat-datepicker #fnacPicker></mat-datepicker>
+        </mat-form-field>
+        <hr/>
+    </div>
+    <div fxLayout = 'row wrap' fxLayoutGap="20px">
+        <p fxFlex="grow">Domicilio</p>
+        <mat-form-field>
+        <input matInput placeholder="Calle" [(ngModel)]="solicitud.calle_hogar" name="calle_hogar" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Número" [(ngModel)]="solicitud.calle_numero_hogar" name="calle_numero_hogar" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Barrio" [(ngModel)]="solicitud.barrio_hogar" name="barrio_hogar" required>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Piso" [(ngModel)]="solicitud.piso_hogar" name="piso_hogar">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Departamento" [(ngModel)]="solicitud.departamento_hogar" name="departamento_hogar">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Teléfono" [(ngModel)]="solicitud.telefono_hogar" name="telefono_hogar">
+        </mat-form-field>
+        <hr>
+    </div>
+    
+    <div fxLayout = 'row wrap' fxLayoutGap="20px">
+        <p fxFlex="grow">Domicilio laboral (opcional)</p>
+    <mat-form-field>
+        <input matInput placeholder="Calle"  [(ngModel)]="solicitud.calle_laboral" name="calle_laboral" >
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Número"  [(ngModel)]="solicitud.calle_numero_laboral" name="calle_numero_laboral" >
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Barrio"  [(ngModel)]="solicitud.barrio_laboral" name="barrio_laboral" >
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Piso"  [(ngModel)]="solicitud.piso_laboral" name="piso_laboral">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Departamento"  [(ngModel)]="solicitud.departamento_laboral" name="departamento_laboral">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Teléfono" [(ngModel)]="solicitud.telefono_laboral" name="departamento_telefono_laboral">
+    </mat-form-field>
+    </div>
+
+    <button mat-raised-button color="primary" type="submit">Siguiente</button>
+</form>
+</div>

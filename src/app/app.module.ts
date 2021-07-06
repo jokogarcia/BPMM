@@ -20,8 +20,12 @@ import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component'
 import { FlexLayoutModule} from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { AuthService} from './auth/auth.service'
-
+import { AuthService} from './auth/auth.service';
+import { SociosFormComponent } from './socios-form/socios-form.component';
+import { SociosSolicitudComponent } from './socios-solicitud/socios-solicitud.component';
+import { SociosNotaComponent } from './socios-nota/socios-nota.component'
+import { NumbersOnlyDirective} from './reusable/directives/numbers-only.directive';
+import {MAT_DATE_LOCALE } from '@angular/material/core'
 
 
 @NgModule({
@@ -38,7 +42,11 @@ import { AuthService} from './auth/auth.service'
     PhotoArticleViewComponent,
     ArticleViewComponent,
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    SociosFormComponent,
+    SociosSolicitudComponent,
+    SociosNotaComponent,
+    NumbersOnlyDirective
     ],
   imports: [
     BrowserModule,
@@ -49,7 +57,7 @@ import { AuthService} from './auth/auth.service'
     FlexLayoutModule,
     FormsModule
   ],
-  providers: [AuthService],
+  providers: [AuthService,{provide: MAT_DATE_LOCALE, useValue: 'es-AR'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
