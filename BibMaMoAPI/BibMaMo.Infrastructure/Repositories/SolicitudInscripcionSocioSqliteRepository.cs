@@ -28,6 +28,7 @@ namespace BibMaMo.Infrastructure.Repositories
 
     public async Task<IEnumerable<SolicitudInscripcionSocio>> GetFiltered(string estado)
     {
+     
       using (var context = new BPMMContext())
       {
         try
@@ -62,6 +63,7 @@ namespace BibMaMo.Infrastructure.Repositories
         entity.State = Microsoft.EntityFrameworkCore.EntityState.Added;
         context.SaveChanges();
         return Task.FromResult(SolicitudInscripcionSocio);
+
       }
     }
 

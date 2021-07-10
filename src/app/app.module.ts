@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ArticleComponent } from './reusable/article/article/article.component';
 import { CatalogoComponent } from './components/catalogo/catalogo.component';
-import { SociosHomeComponent } from './components/socios-home/socios-home.component';
+import { SociosHomeComponent } from './components/socios/socios-home/socios-home.component';
 import { NuestrosHomeComponent } from './components/nuestros-home/nuestros-home.component';
 import { ColeccionHomeComponent } from './components/coleccion-home/coleccion-home.component';
 import { AdminHomeComponent } from './components/admin-home/admin-home.component';
@@ -21,9 +21,9 @@ import { SignUpComponent } from './auth/sign-up/sign-up.component'
 import { FlexLayoutModule} from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { AuthService} from './auth/auth.service';
-import { SociosFormComponent } from './socios-form/socios-form.component';
-import { SociosSolicitudComponent } from './socios-solicitud/socios-solicitud.component';
-import { SociosNotaComponent } from './socios-nota/socios-nota.component'
+import { SociosFormComponent } from './components/socios/socios-form/socios-form.component';
+import { SociosSolicitudComponent } from './components/socios/socios-solicitud/socios-solicitud.component';
+import { SociosNotaComponent } from './components/socios/socios-nota/socios-nota.component'
 import { NumbersOnlyDirective} from './reusable/directives/numbers-only.directive';
 import {MAT_DATE_LOCALE } from '@angular/material/core'
 

@@ -37,15 +37,16 @@
     <div fxLayout = 'row wrap' fxLayoutGap="20px">
         <mat-form-field appearance="fill" fxFlex='nogrow'>
             <mat-label>Tipo de documento</mat-label>
-            <select matNativeControl [(ngModel)]="solicitud.dni_tipo" name="dni_tipo">
-              <option>D.N.I.</option>
-              <option>L.C.</option>
-              <option>L.C.</option>
-              <option>C.I.</option>
+            <select matNativeControl [(ngModel)]="solicitud.dniTipo" name="dniTipo">
+              <option value="DNI">D.N.I.</option>
+              <option value="LE">L.E.</option>
+              <option value ="LC" >L.C.</option>
+              <option value ="CI">C.I.</option>
+              <option value ="PASAPORTE">PASAPORTE</option>
             </select>
           </mat-form-field>
         <mat-form-field fxFlex='nogrow'>
-            <input numbersOnly matInput placeholder="Número de documento" [(ngModel)]="solicitud.dni_num"  name="dni_num"  required>
+            <input numbersOnly matInput placeholder="Número de documento" [(ngModel)]="solicitud.dniNum"  name="dniNum"  required>
         </mat-form-field>
         <mat-form-field fxFlex='nogrow'> 
             <input matInput placeholder="Fecha de Nacimiento" [(ngModel)]="solicitud.fnac" name="fnac" required [matDatepicker]="fnacPicker">
@@ -57,22 +58,22 @@
     <div fxLayout = 'row wrap' fxLayoutGap="20px">
         <p fxFlex="grow">Domicilio</p>
         <mat-form-field>
-        <input matInput placeholder="Calle" [(ngModel)]="solicitud.calle_hogar" name="calle_hogar" required>
+        <input matInput placeholder="Calle" [(ngModel)]="solicitud.datosContactoPersonal.calle" name="callePersonal" required>
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Número" [(ngModel)]="solicitud.calle_numero_hogar" name="calle_numero_hogar" required>
+            <input matInput placeholder="Número" [(ngModel)]="solicitud.datosContactoPersonal.calleNumero" name="calleNumeroPersonal" required>
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Barrio" [(ngModel)]="solicitud.barrio_hogar" name="barrio_hogar" required>
+            <input matInput placeholder="Barrio" [(ngModel)]="solicitud.datosContactoPersonal.barrio" name="barrioPersonal" >
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Piso" [(ngModel)]="solicitud.piso_hogar" name="piso_hogar">
+            <input matInput placeholder="Piso" [(ngModel)]="solicitud.datosContactoPersonal.piso" name="pisoPersonal">
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Departamento" [(ngModel)]="solicitud.departamento_hogar" name="departamento_hogar">
+            <input matInput placeholder="Departamento" [(ngModel)]="solicitud.datosContactoPersonal.departamento" name="departamentoPersonal">
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Teléfono" [(ngModel)]="solicitud.telefono_hogar" name="telefono_hogar">
+            <input matInput placeholder="Teléfono" [(ngModel)]="solicitud.datosContactoPersonal.telefono" name="telefonoPersonal">
         </mat-form-field>
         <hr>
     </div>
@@ -80,25 +81,30 @@
     <div fxLayout = 'row wrap' fxLayoutGap="20px">
         <p fxFlex="grow">Domicilio laboral (opcional)</p>
     <mat-form-field>
-        <input matInput placeholder="Calle"  [(ngModel)]="solicitud.calle_laboral" name="calle_laboral" >
+        <input matInput placeholder="Calle"  [(ngModel)]="solicitud.datosContactoLaboral.calle" name="calleLaboral" >
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Número"  [(ngModel)]="solicitud.calle_numero_laboral" name="calle_numero_laboral" >
+        <input matInput placeholder="Número"  [(ngModel)]="solicitud.datosContactoLaboral.calleNumero" name="calleNumeroLaboral" >
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Barrio"  [(ngModel)]="solicitud.barrio_laboral" name="barrio_laboral" >
+        <input matInput placeholder="Barrio"  [(ngModel)]="solicitud.datosContactoLaboral.barrio" name="barrioLaboral" >
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Piso"  [(ngModel)]="solicitud.piso_laboral" name="piso_laboral">
+        <input matInput placeholder="Piso"  [(ngModel)]="solicitud.datosContactoLaboral.piso" name="pisoLaboral">
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Departamento"  [(ngModel)]="solicitud.departamento_laboral" name="departamento_laboral">
+        <input matInput placeholder="Departamento"  [(ngModel)]="solicitud.datosContactoLaboral.departamento" name="departamentoLaboral">
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Teléfono" [(ngModel)]="solicitud.telefono_laboral" name="departamento_telefono_laboral">
+        <input matInput placeholder="Teléfono" [(ngModel)]="solicitud.datosContactoLaboral.telefono" name="telefonoLaboral">
     </mat-form-field>
     </div>
-
+    <p>Quiero ser socio. <select matNativeControl required [(ngModel)]="solicitud.tipoSolicitud" name="tipoSolicitud">
+        <option selected value="ORDINARIO">Ordinario</option>
+        <option value="CADETE">Cadete</option>
+        <option value="BENEFACTOR">Benefactor</option>
+      </select>
+    </p>
     <button mat-raised-button color="primary" type="submit">Siguiente</button>
 </form>
 </div>

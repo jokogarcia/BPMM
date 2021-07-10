@@ -5,6 +5,7 @@ using System.Text;
 
 namespace BibMaMo.Core.Entities
 {
+  
   public class SolicitudInscripcionSocio
   {
     [Key]
@@ -15,19 +16,21 @@ namespace BibMaMo.Core.Entities
     public string DniTipo { get;set;}
     public string DniNum { get;set;}
     public DateTime Fnac { get; set; }
-    public string CalleHogar{get;set;}
-    public string CalleNumeroHogar{get;set;}
-    public string BarrioHogar { get;set;}
-    public string PisoHogar { get;set;}
-    public string DepartamentoHogar { get;set;}
-    public string TelefonoHogar { get;set;}
-    public string CalleLaboral{get;set;}
-    public string CalleNumeroLaboral{get;set;}
-    public string BarrioLaboral { get;set;}
-    public string PisoLaboral { get;set;}
-    public string DepartamentoLaboral { get;set;}
-    public string TelefonoLaboral { get;set;}
+    public DatosDeContacto DatosContactoPersonal { get; set; }
+    public DatosDeContacto DatosContactoLaboral { get; set; }
+    public string TipoSolicitud { get; set; }
     public string Estado { get; set; }
 
+  }
+  public class DatosDeContacto
+  {
+    [Key]
+    public int Id { get; set; }
+    public string Calle { get; set; }
+    public string CalleNumero { get; set; }
+    public string Barrio { get; set; }
+    public string Piso { get; set; }
+    public string Departamento { get; set; }
+    public string Telefono { get; set; }
   }
 }

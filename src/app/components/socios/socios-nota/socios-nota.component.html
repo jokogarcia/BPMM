@@ -1,0 +1,24 @@
+<div class ="nota">
+    
+<p class="nota-fecha">La Rioja, {{getDateString()}}</p>
+<p class="first-paragraph">A la Comisión Directiva de la Asociación Mariano Moreno Biblioteca Popular</p>
+<p> Quien suscribe, <b>{{solicitud.nombre}} {{solicitud.apellido}}</b>, <b>{{solicitud.dniTipo}} </b>Nº <b>{{solicitud.dniNum}}</b>;
+     clase <b>{{firmante.clase}}</b>; edad <b>{{firmante.edad}}</b>; de profesión <b>{{solicitud.profesion}}</b>; 
+     domiciliado en <b>{{solicitud.datosContactoPersonal.calle}} {{solicitud.datosContactoPersonal.calleNumero}} </b>
+     <span *ngIf="solicitud.datosContactoPersonal.piso"> Piso <b>{{solicitud.datosContactoPersonal.piso}}</b></span>
+     <span *ngIf="solicitud.datosContactoPersonal.departamento"> Departamento <b>{{solicitud.datosContactoPersonal.departamento}}</b></span>
+     <span *ngIf="solicitud.datosContactoPersonal.barrio"> del Barrio <b>{{solicitud.datosContactoPersonal.barrio}}</b></span>
+     <span *ngIf="firmante.tieneDomicilioLaboral"> y con domicilio laboral en 
+        <b>{{solicitud.datosContactoLaboral.calle}} {{solicitud.datosContactoLaboral.calleNumero}} </b> 
+        <span *ngIf="solicitud.datosContactoLaboral.piso"> Piso <b>{{solicitud.datosContactoLaboral.piso}}</b></span>
+        <span *ngIf="solicitud.datosContactoLaboral.departamento"> Departamento <b>{{solicitud.datosContactoLaboral.departamento}}</b></span>
+        <span *ngIf="solicitud.datosContactoLaboral.barrio"> del Barrio <b>{{solicitud.datosContactoLaboral.barrio}}</b></span>
+     </span>
+     , solicita su ingreso como <b>{{solicitud.tipoSolicitud}}</b> de esta biblioteca popular.
+</p>
+<p>Telefono particular <b>{{solicitud.datosContactoPersonal.telefono}}</b></p>
+<p *ngIf="firmante.tieneDomicilioLaboral">Telefono laboral <b>{{solicitud.datosContactoLaboral.telefono}}</b></p>
+<p>Email: <b>{{solicitud.email}}</b></p>
+<p class="firma"><b>{{solicitud.nombre}} {{solicitud.apellido}}</b></p>
+
+</div>

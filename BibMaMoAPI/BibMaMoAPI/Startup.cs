@@ -32,6 +32,7 @@ namespace BibMaMoAPI
             services.AddTransient<IArticleRepository, ArticleSqliteRepository>();
             services.AddTransient<IBookRepository, BookSqliteRepository>();
             services.AddTransient<IUserRepository, UserSqliteRepository>();
+            services.AddTransient<ISolicitudInscripcionSocioRepository, SolicitudInscripcionSocioSqliteRepository>();
     }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,7 +43,7 @@ namespace BibMaMoAPI
                 app.UseDeveloperExceptionPage();
             }
             app.UseCors(
-              options => options.WithOrigins("http://localhost:4200").AllowAnyMethod()
+              options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
             );
       app.UseHttpsRedirection();
 

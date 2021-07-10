@@ -1,27 +1,23 @@
 export class SolicitudSocio{
+    solicitudId:number;
     apellido:string;
     nombre:string;
     email:string;
-    dni_tipo:string;
-    dni_num:string;
+    dniTipo:string;
+    dniNum:string;
     fnac:Date;
-    calle_hogar:string
-    calle_numero_hogar:string
-    barrio_hogar:string;
-    piso_hogar:string;
-    departamento_hogar:string;
-    telefono_hogar:string;
-
-
-    calle_laboral:string
-    calle_numero_laboral:string
-    barrio_laboral:string;
-    piso_laboral:string;
-    departamento_laboral:string;
-    telefono_laboral:string;
-
-
-    
-    
+    datosContactoPersonal:DatosDeContacto;
+    datosContactoLaboral?:DatosDeContacto;
+    tipoSolicitud:string;
+    profesion?:string;
+    estado:string;
+}
+export class DatosDeContacto{
+    calle:string
+    calleNumero:string
+    barrio?:string;
+    piso?:string;
+    departamento?:string;
+    telefono?:string;
     
 }
