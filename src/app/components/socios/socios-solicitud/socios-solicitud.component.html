@@ -1,27 +1,28 @@
-<div *ngIf='status=="new"'><app-socios-form (formSubmitEvent)="formSubmitted($event)"></app-socios-form></div>
-<div *ngIf='status=="nota"'>
-    <app-socios-nota [data]="solicitud"></app-socios-nota>
-    <div class="botonera">
-        <button mat-raised-button color="primary"  (click)="enviar()">Enviar</button>
-        <button mat-raised-button  (click)="goBack()">Volver</button>
-     </div>
-</div>
+<div class="container">
+    <div *ngIf='status=="new"'><app-socios-form (formSubmitEvent)="formSubmitted($event)"></app-socios-form></div>
+    <div *ngIf='status=="nota"'>
+        <app-socios-nota [data]="solicitud" id="nota"></app-socios-nota>
+        <div class="botonera">
+            <button mat-raised-button color="primary"  (click)="enviar()">Enviar</button>
+            <button mat-raised-button  (click)="goBack()">Volver</button>
+        </div>
+    </div>
 
-<div *ngIf='status=="sending"'>
-   <p> ENVIANDO</p>
+    <div  class="statusMessage" *ngIf='status=="sending"'>
+    <p> ENVIANDO</p>
 
-</div>
+    </div>
 
-<div *ngIf='status=="error"'>
-    <p> Ocurrió un error. Por favor, reintenta en unos segundos.</p>
+    <div class="statusMessage" *ngIf='status=="error"'>
+        <div><p> Ocurrió un error. Por favor, reintenta en unos segundos.</p></div>
+        <div>
+            <button mat-raised-button color="primary"  (click)="enviar()">Reintentar</button>
+            <button mat-raised-button  (click)="goBack()">Volver</button>
+        </div>
+    </div>
 
-    <div class="botonera">
-        <button mat-raised-button color="primary"  (click)="enviar()">Reintentar</button>
-        <button mat-raised-button  (click)="goBack()">Volver</button>
-     </div>
-</div>
-
-<div *ngIf='status=="exito"'>
-    <p> La solicitud fue enviada exitosamente. Será procesada en unos días y recibirás una notificación en el email <b>{{solicitud.email}}</b> cuando se haya aprobado.</p>
-    <p>¡Muchas gracias por apoyar a La Biblio!</p>
+    <div  class="statusMessage" *ngIf='status=="exito"'>
+        <p> La solicitud fue enviada exitosamente. Será procesada en unos días y recibirás una notificación en el email <b>{{solicitud.email}}</b> cuando se haya aprobado.</p>
+        <p>¡Muchas gracias por apoyar a La Biblio!</p>
+    </div>
 </div>

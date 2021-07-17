@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,10 +50,59 @@ namespace BibMaMo.Infrastructure.Repositories
 
       }
     }
+    
+    public async Task<IEnumerable<SolicitudInscripcionSocio>> GetInterval(DateTime fromDate, DateTime toDate)
+    {
+      
+      using (var context = new BPMMContext())
+      {
+        try
+        {
+          var allItems = context.SolicitudInscripcionSocios.AsAsyncEnumerable();
+          var result = await allItems.Where(x => isDateBetween(fromDate,toDate,x.FechaCreacion))
+            .ToListAsync();
+          if (!result.Any())
+          {
+            throw new ItemNotFoundException();
+          }
+          return result;
+        }
+        catch (NullReferenceException)
+        {
+          throw new ItemNotFoundException();
+        }
+
+      }
+    }
 
     public Task<SolicitudInscripcionSocio> GetSingle(int id)
     {
       return GetItemOrThrow(id);
+    }
+    public async Task Approve(int id)
+    {
+      var item = await GetSingle(id);
+      if(item.Estado != "N")
+      {
+        throw new Exception("Esta solicitud ya fue procesada. Estado actual: " + NombreDeEstado(item.Estado));
+      }
+      item.Estado = "A";
+      item.FechaProcesamiento = DateTime.Now;
+      await Replace(item);
+    }
+
+   
+
+    public async Task Reject(int id)
+    {
+      var item = await GetSingle(id);
+      if (item.Estado != "N")
+      {
+        throw new Exception("Esta solicitud ya fue procesada. Estado actual: " + NombreDeEstado(item.Estado));
+      }
+      item.Estado = "R";
+      item.FechaProcesamiento = DateTime.Now;
+      await Replace(item);
     }
 
     public Task<SolicitudInscripcionSocio> Insert(SolicitudInscripcionSocio SolicitudInscripcionSocio)
@@ -106,6 +156,24 @@ namespace BibMaMo.Infrastructure.Repositories
         return item;
       }
 
+    }
+    private static bool isDateBetween(DateTime fromDate, DateTime toDate, DateTime chequingDate)
+    {
+      if (fromDate > toDate)
+      {
+        throw new Exception("Fecha inicial no puede ser mayor que la final");
+      }
+      return chequingDate.Ticks > fromDate.Ticks && chequingDate.Ticks <= toDate.Ticks;
+    }
+    private static string NombreDeEstado(string estado)
+    {
+      switch (estado.ToUpper())
+      {
+        case "N": return "NUEVO";
+        case "R": return "RECHAZADO";
+        case "A": return "APROBADO";
+        default: return $"DESCONOCIDO / INVALIDO ({estado})";
+      }
     }
   }
 }

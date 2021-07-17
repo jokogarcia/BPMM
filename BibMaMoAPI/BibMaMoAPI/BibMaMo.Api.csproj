@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BibMaMo.Core\BibMaMo.Core.csproj" />
     <ProjectReference Include="..\BibMaMo.Infrastructure\BibMaMo.Infrastructure.csproj" />
+    <ProjectReference Include="..\MailerService\MailerService.csproj" />
   </ItemGroup>
 
   <ItemGroup>

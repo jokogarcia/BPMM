@@ -24,6 +24,8 @@ export class SociosSolicitudComponent implements OnInit {
     this.status="new";
   }
   enviar=()=>{
+
+    this.solicitud.nota=document.getElementById("nota").innerHTML;
     this.status ="sending";
     this.service.create(this.solicitud)
     .subscribe(

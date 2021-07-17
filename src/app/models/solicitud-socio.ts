@@ -11,6 +11,7 @@ export class SolicitudSocio{
     tipoSolicitud:string;
     profesion?:string;
     estado:string;
+    nota?:string;
 }
 export class DatosDeContacto{
     calle:string

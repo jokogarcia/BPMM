@@ -20,6 +20,9 @@ namespace BibMaMo.Core.Entities
     public DatosDeContacto DatosContactoLaboral { get; set; }
     public string TipoSolicitud { get; set; }
     public string Estado { get; set; }
+    public string Nota { get; set; }
+    public DateTime FechaCreacion { get; set; }
+    public DateTime FechaProcesamiento { get; set; }
 
   }
   public class DatosDeContacto
