@@ -35,7 +35,7 @@ namespace BibMamo.UnitTests.Helpers
         DatosContactoLaboral = CoinToss() ? randomDatosContactos() : null
       };
     }
-    static DatosDeContacto randomDatosContactos(int id=0)
+    public static DatosDeContacto randomDatosContactos(int id=0)
     {
       var Calles = new RandomItemPicker(new string[] { "Copiapo", "alberdi", "9 de Julio", "Santa Fe", "Huniken", "Los Granados" });
       var Barrios = new RandomItemPicker(new string[] { "", "Centro", "Vargas", "Antártida 1" });

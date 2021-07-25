@@ -29,6 +29,7 @@ namespace BibMaMo.Infrastructure.Data
     public DbSet<Article> Articles { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Loan> Loans { get; set; }
+    public DbSet<CodigoVerificacion> CodigoVerificacions { get; set; }
     public DbSet<SolicitudInscripcionSocio> SolicitudInscripcionSocios { get; set; }
   }
 }

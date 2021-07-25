@@ -1,5 +1,6 @@
 using BibMaMo.Core.Interfaces;
 using BibMaMo.Infrastructure.Repositories;
+using MailerService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,46 +16,58 @@ using System.Threading.Tasks;
 
 namespace BibMaMoAPI
 {
-    public class Startup
+  public class Startup
+  {
+    public Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddCors();
-            services.AddControllers();
-            services.AddTransient<IArticleRepository, ArticleSqliteRepository>();
-            services.AddTransient<IBookRepository, BookSqliteRepository>();
-            services.AddTransient<IUserRepository, UserSqliteRepository>();
-            services.AddTransient<ISolicitudInscripcionSocioRepository, SolicitudInscripcionSocioSqliteRepository>();
+      Configuration = configuration;
     }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            app.UseCors(
-              options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
-            );
+    public IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+      services.AddCors();
+      services.AddControllers();
+      services.AddTransient<IArticleRepository, ArticleSqliteRepository>();
+      services.AddTransient<IBookRepository, BookSqliteRepository>();
+      services.AddTransient<IUserRepository, UserSqliteRepository>();
+      services.AddTransient<ICodigoVerificacionRepository, CodigoVerificacionSqliteRepository>();
+
+      services.AddTransient<ISolicitudInscripcionSocioRepository, SolicitudInscripcionSocioSqliteRepository>();
+      
+      services.AddSingleton<IMailerService>(new MailerServiceMailkit(
+        Configuration["SMTPSettings:Server"]
+        , int.Parse(Configuration["SMTPSettings:Port"])
+        , Configuration["SMTPSettings:Password"]
+        , Configuration["SMTPSettings:UserName"]
+        , Configuration["SMTPSettings:SenderEmailAddress"]
+        , Configuration["SMTPSettings:SenderFullName"]
+        , Configuration["SMTPSettings:DefaultToAddress"])
+        );
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+      if (env.IsDevelopment())
+      {
+        app.UseDeveloperExceptionPage();
+      }
+      app.UseCors(
+        options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+      );
       app.UseHttpsRedirection();
 
-            app.UseRouting();
+      app.UseRouting();
 
-            app.UseAuthorization();
+      app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapControllers();
+      });
     }
+  }
 }

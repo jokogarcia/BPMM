@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibMamo.UnitTests", "BibMam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibMaMo.IntegrationTests", "BibMaMo.IntegrationTests\BibMaMo.IntegrationTests.csproj", "{2CB8E279-DA3C-4483-BC95-97808ED3D7F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailerService", "MailerService\MailerService.csproj", "{4D240F1A-7C48-4657-AB63-F74DD81E50E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailerService", "MailerService\MailerService.csproj", "{4D240F1A-7C48-4657-AB63-F74DD81E50E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

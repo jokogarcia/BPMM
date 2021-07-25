@@ -32,7 +32,7 @@ namespace BibMamo.UnitTests
     }
     public SolicitudInscripcionSocioControllerTests()
     {
-      _controller = new SolicitudInscripcionSocioController(new SolicitudInscripcionSocioMockRepository());
+      _controller = new SolicitudInscripcionSocioController(new SolicitudInscripcionSocioMockRepository(), new CodigoVerificacionMockRepository(),new MailerService.MailerServiceMock());
     }
     #region GetAllMethodTests
     [Fact]
@@ -88,21 +88,6 @@ namespace BibMamo.UnitTests
     }
     #endregion
     #region AddMethodTests
-    //[Fact]
-    //public void Add_InvalidObjectPassed_ReturnsBadRequest()
-    //{
-    //  // Arrange
-    //  var nameMissingItem = new ShoppingItem()
-    //  {
-    //    Manufacturer = "Guinness",
-    //    Price = 12.00M
-    //  };
-    //  _controller.ModelState.AddModelError("Name", "Required");
-    //  // Act
-    //  var badResponse = _controller.Post(nameMissingItem);
-    //  // Assert
-    //  Assert.IsType<BadRequestObjectResult>(badResponse);
-    //}
     [Fact]
     public void Add_ValidObjectPassed_ReturnsOkObjectResponse()
     {
@@ -237,9 +222,75 @@ namespace BibMamo.UnitTests
     #endregion
     #region AceptarTests
     [Fact]
-    public  void ZAcceptInvalidId_ReturnsNotFoundResult()
+    public void ZAcceptInvalidId_ReturnsNotFoundResult()
     {
-      var notFoundResult =  _controller.Approve(-1);
+      var notFoundResult = _controller.Approve(-1);
+      Assert.IsType<NotFoundResult>(notFoundResult.Result);
+    }
+    #endregion
+    #region Intervalo
+    [Fact]
+    public void GetIntervalo_ReturnsNotFoundResult()
+    {
+      var notFoundResult = _controller.GetInterval(DateTime.MinValue, DateTime.MinValue.AddDays(2));
+      Assert.IsType<NotFoundResult>(notFoundResult.Result);
+    }
+    [Fact]
+    public void GetIntervalo_ReturnsAtLeastOne()
+    {
+      var okResult = _controller.GetInterval(DateTime.Now.AddDays(-1), DateTime.Now.AddDays(2)).Result as OkObjectResult;
+      var resultValue = okResult.Value as List<SolicitudInscripcionSocio>;
+      Assert.IsType<List<SolicitudInscripcionSocio>>(okResult.Value);
+    }
+
+    [Fact]
+    public void GetIntervalo_ReturnsCorrectValues()
+    {
+      var minDate = DateTime.Now.AddDays(-1);
+      var maxDate = DateTime.Now.AddDays(1);
+      var okResult = _controller.GetInterval(minDate,maxDate).Result as OkObjectResult;
+      var resultValue = okResult.Value as List<SolicitudInscripcionSocio>;
+      foreach(var item in resultValue)
+      {
+        Assert.True(item.FechaCreacion >= minDate && item.FechaCreacion <= maxDate);
+      }
+    }
+    #endregion
+
+    #region ResendCode
+    [Fact]
+    public void ResendCode_NotCrash()
+    {
+      var okResult = _controller.ResendCode(1);
+      Assert.IsType<OkResult>(okResult.Result);
+    }
+    [Fact]
+    public void ResendCode_ObjectNotFound()
+    {
+      var notFoundResult = _controller.ResendCode(199999);
+      Assert.IsType<NotFoundResult>(notFoundResult.Result);
+    }
+    #endregion
+
+    #region VerifyCode
+    [Fact]
+    public void VerifyCode_OkResult()
+    {
+
+      var okResult = _controller.VerifyCode(0, "codigo0").Result;
+      Assert.IsType<OkResult>(okResult);
+    }
+    [Fact]
+    public void VerifyCode_BadRequestResult()
+    {
+
+      var okResult = _controller.VerifyCode(2, "codigobad1");
+      Assert.IsType<BadRequestObjectResult>(okResult.Result);
+    }
+    [Fact]
+    public void VerifyCode_ObjectNotFound()
+    {
+      var notFoundResult = _controller.VerifyCode(199999,"cue");
       Assert.IsType<NotFoundResult>(notFoundResult.Result);
     }
     #endregion

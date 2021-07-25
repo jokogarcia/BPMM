@@ -24,7 +24,23 @@ namespace BibMaMo.UnitTests.Repositories
     private List<SolicitudInscripcionSocio> populateMockRepo()
     {
       var MockRepo = new List<SolicitudInscripcionSocio>();
-      for (int x = 0; x < 10; x++)
+      MockRepo.Add(new SolicitudInscripcionSocio
+      {
+        Apellido="Garcia",
+        Nombre="Joaquin",
+        DniNum="30415559",
+        DniTipo="DNI",
+        Email="jokogarcia@gmail.com",
+        Estado="N",
+        FechaCreacion=DateTime.Now,
+        Fnac=new DateTime(1984,07,29),
+        Nota="Lorem ipsum",
+        SolicitudId=0,
+        TipoSolicitud="CADETE",
+        DatosContactoLaboral= BibMamo.UnitTests.Helpers.GeneratorHelpers.randomDatosContactos(1)
+
+      });;
+      for (int x = 1; x < 11; x++)
       {
         MockRepo.Add(GeneratorHelpers.generateRandomSolicitud(x));
       }

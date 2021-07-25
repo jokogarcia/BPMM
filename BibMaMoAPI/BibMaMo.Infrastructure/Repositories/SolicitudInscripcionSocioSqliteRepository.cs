@@ -82,9 +82,10 @@ namespace BibMaMo.Infrastructure.Repositories
     public async Task Approve(int id)
     {
       var item = await GetSingle(id);
-      if(item.Estado != "N")
+
+      if(item.Estado != "V")
       {
-        throw new Exception("Esta solicitud ya fue procesada. Estado actual: " + NombreDeEstado(item.Estado));
+        throw new Exception("Estado invalido para aprobar. Debe ser 'V': verificado. Estado actual: " + NombreDeEstado(item.Estado));
       }
       item.Estado = "A";
       item.FechaProcesamiento = DateTime.Now;
@@ -96,9 +97,9 @@ namespace BibMaMo.Infrastructure.Repositories
     public async Task Reject(int id)
     {
       var item = await GetSingle(id);
-      if (item.Estado != "N")
+      if (item.Estado != "N" && item.Estado != "V")
       {
-        throw new Exception("Esta solicitud ya fue procesada. Estado actual: " + NombreDeEstado(item.Estado));
+        throw new Exception("Estado invalido para aprobar. Debe ser 'V': verificado o 'N': nuevo. Estado actual: " + NombreDeEstado(item.Estado));
       }
       item.Estado = "R";
       item.FechaProcesamiento = DateTime.Now;

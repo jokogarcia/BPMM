@@ -19,7 +19,7 @@ namespace BibMaMo.Core.Entities
     public DatosDeContacto DatosContactoPersonal { get; set; }
     public DatosDeContacto DatosContactoLaboral { get; set; }
     public string TipoSolicitud { get; set; }
-    public string Estado { get; set; }
+    public string Estado { get; set; } //N: Nuevo. V:Email verificado. A:Aprobado. R:Rechazado
     public string Nota { get; set; }
     public DateTime FechaCreacion { get; set; }
     public DateTime FechaProcesamiento { get; set; }
