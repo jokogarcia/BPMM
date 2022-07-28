@@ -20,7 +20,8 @@ import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component'
 import { FlexLayoutModule} from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { AuthService} from './auth/auth.service'
+import { AuthService} from './auth/auth.service';
+import { ComisionComponent } from './components/comision/comision.component'
 
 
 
@@ -38,7 +39,8 @@ import { AuthService} from './auth/auth.service'
     PhotoArticleViewComponent,
     ArticleViewComponent,
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    ComisionComponent
     ],
   imports: [
     BrowserModule,
