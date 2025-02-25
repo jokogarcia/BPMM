@@ -1,9 +1,5 @@
 div.bpmm-header-container {
     background-size: cover;
+    background-position: center;
     
-}
-@media (max-width: 768px) {
-    div.bpmm-header-container {
-        background-size: contain;
-    }
 }
