@@ -23,5 +23,15 @@ export class NavHeaderComponent implements OnInit, OnDestroy{
   callLogout(){
     this.authService.logout();
   }
+  toggleMenu(){
+    const navSmall = document.getElementById('navSmall');
+    if (navSmall) {
+      if (navSmall.classList.contains('w3-show')) {
+        navSmall.classList.remove('w3-show');
+      } else {
+        navSmall.classList.add('w3-show');
+      }
+    }
+  }
 
 }
