@@ -1,7 +1,10 @@
-<div class="w3-content w3-padding" style="max-width:1564px">
-    <h1 [innerHtml]="article.title"></h1>
+<div class="w3-content w3-padding article-container" >
+    <h1 class="bpmm-primary" [innerHtml]="article.title" ></h1>
     <h2 class="article_subtitle" *ngIf="article.subtitle">{{article.subtitle}}</h2>
-    <h3 class="article_author" *ngIf="article.author">por {{article.author}}</h3>
-    <img class="article_main_image"  src="./assets/images/{{article.mainImageUrl}}">
+    <h3 class="article_author bpmm-secondary" *ngIf="article.author">por {{article.author}}</h3>
+
+    <div class="floated">
+        <img src="./assets/images/{{article.mainImageUrl}}" alt="{{article.title}}">
+    </div>
     <div class="content" [innerHTML]="content"></div>
 </div>
