@@ -1,3 +1,6 @@
+#!/bin/bash
+set -x #echo on
+
 BUILD_NUMBER=$(date +%s)
 PACKETNAME=bibmamo_$BUILD_NUMBER.tar.gz
 DOMAIN=bibliotecamarianomoreno.org
@@ -8,10 +11,10 @@ echo Making Package
 cd dist/bibmamo
 tar czf ../$PACKETNAME .
 echo Copying Package to Server
-scp -P 65002  ../$PACKETNAME  u713988895@212.1.211.117:. 
+scp -P 65002  ../$PACKETNAME  u713988895@srv1923.main-hosting.eu:. 
 
 echo Backing up current Copy
-ssh -p65002 u713988895@212.1.211.117 "rm -r backups/latest/$REMOTEDIR ; mkdir -p backups/latest/$REMOTEDIR; mv $REMOTEDIR backups/latest/$REMOTEDIR"
+ssh -p65002 u713988895@srv1923.main-hosting.eu "rm -r backups/latest/$REMOTEDIR ; mkdir -p backups/latest/$REMOTEDIR; mv $REMOTEDIR backups/latest/$REMOTEDIR"
 
 echo Extracting Package Remotely
-ssh -p65002 u713988895@212.1.211.117 "mkdir -p $REMOTEDIR; tar -xf $PACKETNAME -C $REMOTEDIR"
+ssh -p65002 u713988895@srv1923.main-hosting.eu "mkdir -p $REMOTEDIR; tar -xf $PACKETNAME -C $REMOTEDIR"
