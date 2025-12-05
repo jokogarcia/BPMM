@@ -20,4 +20,5 @@ docker cp $CONTAINER_ID:/app/dist/bibmamo/ ./dist
 echo "Cleaning up temporary container..."
 docker rm $CONTAINER_ID
 
-scp -r ./dist/bibmamo/* joaquin@irazu.com.ar:/www/bpmm/
+echo "Syncing files to server..."
+rsync -avz --delete ./dist/bibmamo/ joaquin@irazu.com.ar:/www/bpmm/
