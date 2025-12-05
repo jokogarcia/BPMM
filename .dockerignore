@@ -2,3 +2,4 @@ node_modules
 dist
 Dockerfile
 .dockerignore
+docker-build-and-extract.sh

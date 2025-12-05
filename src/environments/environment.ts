@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://bpmm.azurewebsites.net/api/' //https://bpmm.azurewebsites.net/api/
+  apiUrl: 'http://localhost:8080/api/' //https://bpmm.azurewebsites.net/api/
 };
 
 /*

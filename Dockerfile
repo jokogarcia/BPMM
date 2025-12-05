@@ -8,5 +8,7 @@ COPY package.json .
 COPY package-lock.json .
 RUN npm install
 COPY . .
-RUN ng serve
-CMD ["ng", "serve"]
+RUN ng build --prod
+RUN npm install -g http-server
+EXPOSE 4200
+CMD ["http-server", "dist/bibmamo", "-p", "4200"]
