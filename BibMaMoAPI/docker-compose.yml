@@ -7,6 +7,6 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "6001:80"
+      - "6000:80"
     volumes:
       - ./BibMaMoAPI/bpmm.sqlite:/app/bpmm.sqlite
