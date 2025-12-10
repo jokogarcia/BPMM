@@ -3,9 +3,10 @@ import { Article } from 'src/app/models/article';
 import { ArticlesService } from 'src/app/services/articles.service';
 
 @Component({
-  selector: 'app-nuestros-home',
-  templateUrl: './nuestros-home.component.html',
-  styleUrls: ['./nuestros-home.component.scss']
+    selector: 'app-nuestros-home',
+    templateUrl: './nuestros-home.component.html',
+    styleUrls: ['./nuestros-home.component.scss'],
+    standalone: false
 })
 export class NuestrosHomeComponent implements OnInit {
 
