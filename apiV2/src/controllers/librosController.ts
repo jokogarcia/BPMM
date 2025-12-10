@@ -8,7 +8,6 @@ export const searchByFilters = async (req: Request, res: Response) => {
         const page = parseInt(pageNumber as string, 10);
         const size = parseInt(pageSize as string, 10);
         const skip = page * size;
-        console.log("Hello there!!");
         if (isNaN(page) || isNaN(size) || page < 0 || size <= 0 || size > 100) {
             console.log('Invalid pagination parameters:', { pageNumber, pageSize });
             return res.status(400).json({ 
