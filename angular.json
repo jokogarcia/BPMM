@@ -72,18 +72,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "bibmamo:build"
+            "buildTarget": "bibmamo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "bibmamo:build:production"
+              "buildTarget": "bibmamo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bibmamo:build"
+            "buildTarget": "bibmamo:build"
           }
         },
         "test": {
