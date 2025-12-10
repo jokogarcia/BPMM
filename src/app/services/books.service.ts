@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Book} from '../models/book'
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {FilteredBooksResult} from '../models/filteredBooksResult';
 import { environment } from '../../environments/environment';
