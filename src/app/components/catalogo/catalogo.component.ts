@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Book } from '../../models/book'
 import {BooksService} from '../../services/books.service'
 import {MatSort} from '@angular/material/sort';
-import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-catalogo',
