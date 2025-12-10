@@ -4,8 +4,10 @@ import helmet from 'helmet';
 import cors from 'cors';
 
 import healthRoutes from './routes/healthRoutes';
+import librosRoutes from './routes/librosRoutes';
 import { errorHandler } from './middleware/errorHandler';
 import { notFoundHandler } from './middleware/notFoundHandler';
+import  './data';
 
 dotenv.config();
 
@@ -19,6 +21,7 @@ app.use(express.json());
 
 
 app.use('/health', healthRoutes);
+app.use('/api/libros', librosRoutes);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Express + TypeScript Server');
@@ -26,6 +29,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use(notFoundHandler);
 app.use(errorHandler);
+
 
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);

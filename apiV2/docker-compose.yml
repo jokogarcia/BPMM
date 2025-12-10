@@ -1,0 +1,21 @@
+services:
+  bpmm-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bpmm-api-v2
+    ports:
+      - "6000:6000"
+    environment:
+      - NODE_ENV=production
+      - PORT=6000
+    volumes:
+      # Mount data directory to persist SQLite database
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
