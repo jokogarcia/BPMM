@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Article } from 'src/app/models/article';
-import { ArticlesService } from 'src/app/services/articles.service';
+import {Article} from '../../models/article';
+import {ArticlesService} from '../../services/articles.service';
 
 @Component({
-  selector: 'app-coleccion-home',
-  templateUrl: './coleccion-home.component.html',
-  styleUrls: ['./coleccion-home.component.scss']
+    selector: 'app-coleccion-home',
+    templateUrl: './coleccion-home.component.html',
+    styleUrls: ['./coleccion-home.component.scss'],
+    standalone: false
 })
 export class ColeccionHomeComponent implements OnInit {
 
   constructor( private articlesService:ArticlesService) { }
-  articles:Article[];
+  articles:Article[]=[];
 
   ngOnInit(): void {
     this.getArticles();

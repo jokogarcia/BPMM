@@ -3,9 +3,10 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
-  selector: 'app-nav-header',
-  templateUrl: './nav-header.component.html',
-  styleUrls: ['./nav-header.component.scss']
+    selector: 'app-nav-header',
+    templateUrl: './nav-header.component.html',
+    styleUrls: ['./nav-header.component.scss'],
+    standalone: false
 })
 export class NavHeaderComponent implements OnInit, OnDestroy{
   isAuth:boolean;

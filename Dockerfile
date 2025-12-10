@@ -1,14 +1,20 @@
-FROM node:12.18.3-alpine3.12
-
-#install angular CLI
-RUN npm install -g @angular/cli@10.0.5
+FROM node:22-alpine
 
 WORKDIR /app
+
 COPY package.json .
 COPY package-lock.json .
-RUN npm install
+
+# Install dependencies including devDependencies for building
+RUN npm ci
+
 COPY . .
-RUN ng build --prod
+
+# Build the application
+RUN npm run build
+
+# Install http-server to serve static files
 RUN npm install -g http-server
+
 EXPOSE 4200
-CMD ["http-server", "dist/bibmamo", "-p", "4200"]
+CMD ["http-server", "dist/bibmamo/browser", "-p", "4200"]

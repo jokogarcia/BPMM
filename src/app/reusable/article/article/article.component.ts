@@ -5,13 +5,14 @@ import { DomSanitizer } from '@angular/platform-browser'
 
 
 @Component({
-  selector: 'app-article',
-  templateUrl: './article.component.html',
-  styleUrls: ['./article.component.scss']
+    selector: 'app-article',
+    templateUrl: './article.component.html',
+    styleUrls: ['./article.component.scss'],
+    standalone: false
 })
 export class ArticleComponent implements OnInit {
-  public article:Article;
-  private articleHandle:string;
+  public article:Article|null=null;
+  private articleHandle:string="";
   content: any;
   constructor(private articlesService:ArticlesService, 
     private sanitized: DomSanitizer) {

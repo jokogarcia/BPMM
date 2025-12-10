@@ -14,7 +14,7 @@ import { NavHeaderComponent } from './components/nav-header/nav-header.component
 import { PhotoArticleViewComponent } from './reusable/photo-article-view/photo-article-view.component';
 import { ArticleViewComponent } from './components/article-view/article-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MaterialModule } from './material.module';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component'
@@ -25,33 +25,26 @@ import { ComisionComponent } from './components/comision/comision.component'
 
 
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    ArticleComponent,
-    CatalogoComponent,
-    SociosHomeComponent,
-    NuestrosHomeComponent,
-    ColeccionHomeComponent,
-    AdminHomeComponent,
-    HomeComponent,
-    NavHeaderComponent,
-    PhotoArticleViewComponent,
-    ArticleViewComponent,
-    SignInComponent,
-    SignUpComponent,
-    ComisionComponent
+@NgModule({ declarations: [
+        AppComponent,
+        ArticleComponent,
+        CatalogoComponent,
+        SociosHomeComponent,
+        NuestrosHomeComponent,
+        ColeccionHomeComponent,
+        AdminHomeComponent,
+        HomeComponent,
+        NavHeaderComponent,
+        PhotoArticleViewComponent,
+        ArticleViewComponent,
+        SignInComponent,
+        SignUpComponent,
+        ComisionComponent
     ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MaterialModule,
-    FlexLayoutModule,
-    FormsModule
-  ],
-  providers: [AuthService],
-  bootstrap: [AppComponent]
-})
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        FlexLayoutModule,
+        FormsModule], providers: [AuthService, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

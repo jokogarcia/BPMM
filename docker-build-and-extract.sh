@@ -14,10 +14,11 @@ mkdir -p ./dist
 
 # Copy the built application from container to host
 echo "Copying built files from container to host..."
-docker cp $CONTAINER_ID:/app/dist/bibmamo/ ./dist
+docker cp $CONTAINER_ID:/app/dist/bibmamo/browser ./dist/bibmamo
 
 # Clean up the temporary container
 echo "Cleaning up temporary container..."
 docker rm $CONTAINER_ID
 
-scp -r ./dist/bibmamo/* joaquin@irazu.com.ar:/www/bpmm/
+echo "Syncing files to server..."
+rsync -avz --delete ./dist/bibmamo/ joaquin@irazu.com.ar:/www/bpmm/

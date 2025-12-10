@@ -1,10 +1,12 @@
-export class Book{
-    title:string;
-    author:string;
-    tags:string[];
-    isbn:string;
-    inventoryId:string;
-    libri:string;
-    publisher:string;
-    
+export interface Book{
+    autor: string;
+    titulo: string;
+    editorial: string;
+    ejemplares: number;
+    paginas: number;
+    edicion: string;
+    inventario: string;
+    isbn: string;
+    observaciones: string;
+    categoria: string;
 }

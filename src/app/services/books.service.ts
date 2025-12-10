@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Book} from '../models/book'
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {FilteredBooksResult} from '../models/filteredBooksResult';
 import { environment } from '../../environments/environment';
@@ -15,42 +15,41 @@ export class BooksService {
 
   constructor(private httpClient: HttpClient) { }
   
-  readAll(): Observable<any> {
-    return this.httpClient.get(baseURL);
+  readAll(): Observable<Book[]> {
+    return this.httpClient.get<Book[]>(baseURL);
   }
 
-  read(id): Observable<any> {
-    return this.httpClient.get(`${baseURL}/${id}`);
+  read(id: string): Observable<Book> {
+    return this.httpClient.get<Book>(`${baseURL}/${id}`);
   }
 
-  create(data): Observable<any> {
-    return this.httpClient.post(baseURL, data);
+  create(data: Book): Observable<Book> {
+    return this.httpClient.post<Book>(baseURL, data);
   }
 
-  update(data): Observable<any> {
-    return this.httpClient.put(`${baseURL}`, data);
+  update(data: Book): Observable<Book> {
+    return this.httpClient.put<Book>(`${baseURL}`, data);
   }
 
-  delete(id): Observable<any> {
+  delete(id: string): Observable<any> {
     return this.httpClient.delete(`${baseURL}/${id}`);
   }
 
-  searchByTags(tags): Observable<any> {
-    return this.httpClient.get(`${baseURL}/tags/${tags}`);
+  searchByTags(tags: string): Observable<Book[]> {
+    return this.httpClient.get<Book[]>(`${baseURL}/tags/${tags}`);
   }
   searchByFilters(author:string, title:string, categories:string, pageNumber:number=0, pageSize:number=25): Observable<FilteredBooksResult> {
       let url =`${baseURL}/filtered?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     if(author){
-        url+=`&author=${author}`;
+        url+=`&author=${encodeURIComponent(author)}`;
     }
     if(title){
-        url+=`&title=${title}`;
+        url+=`&title=${encodeURIComponent(title)}`;
     }
     if(categories && categories !== "todas" ){
-      url+=`&categories=${categories}`;
+      url+=`&categories=${encodeURIComponent(categories)}`;
     }
-    var result =  this.httpClient.get(url) as Observable<FilteredBooksResult>;
-    return result;
+    return this.httpClient.get<FilteredBooksResult>(url);
   }
   getCategories():Observable<string[]>{
       return this.httpClient.get(`${baseURL}/categories`) as Observable<string[]>;

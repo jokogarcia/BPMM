@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Article} from '../models/article'
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -14,27 +14,27 @@ export class ArticlesService {
 
   constructor(private httpClient: HttpClient) { }
   
-  readAll(): Observable<any> {
-    return this.httpClient.get(baseURL);
+  readAll(): Observable<Article[]> {
+    return this.httpClient.get<Article[]>(baseURL);
   }
 
-  read(id): Observable<any> {
-    return this.httpClient.get(`${baseURL}/${id}`);
+  read(id:string): Observable<Article> {
+    return this.httpClient.get<Article>(`${baseURL}/${id}`);
   }
 
-  create(data): Observable<any> {
-    return this.httpClient.post(baseURL, data);
+  create(data: Article): Observable<Article> {
+    return this.httpClient.post<Article>(baseURL, data);
   }
 
-  update(data): Observable<any> {
-    return this.httpClient.put(`${baseURL}`, data);
+  update(data: Article): Observable<Article> {
+    return this.httpClient.put<Article>(`${baseURL}`, data);
   }
 
-  delete(id): Observable<any> {
+  delete(id: string): Observable<any> {
     return this.httpClient.delete(`${baseURL}/${id}`);
   }
 
-  searchByTags(tags): Observable<any> {
-    return this.httpClient.get(`${baseURL}/tags/${tags}`);
+  searchByTags(tags: string): Observable<Article[]> {
+    return this.httpClient.get<Article[]>(`${baseURL}/tags/${tags}`);
   }
 }
