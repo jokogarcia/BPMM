@@ -41,16 +41,15 @@ export class BooksService {
   searchByFilters(author:string, title:string, categories:string, pageNumber:number=0, pageSize:number=25): Observable<FilteredBooksResult> {
       let url =`${baseURL}/filtered?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     if(author){
-        url+=`&author=${author}`;
+        url+=`&author=${encodeURIComponent(author)}`;
     }
     if(title){
-        url+=`&title=${title}`;
+        url+=`&title=${encodeURIComponent(title)}`;
     }
     if(categories && categories !== "todas" ){
-      url+=`&categories=${categories}`;
+      url+=`&categories=${encodeURIComponent(categories)}`;
     }
-    var result =  this.httpClient.get(url) as Observable<FilteredBooksResult>;
-    return result;
+    return this.httpClient.get<FilteredBooksResult>(url);
   }
   getCategories():Observable<string[]>{
       return this.httpClient.get(`${baseURL}/categories`) as Observable<string[]>;

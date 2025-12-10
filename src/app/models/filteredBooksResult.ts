@@ -1,6 +1,12 @@
 import {Book} from '../models/book'
 
 export interface FilteredBooksResult{
-    totalCount:number;
-    results:Book[];
+    success: boolean;
+    count: number;
+    data: Book[];
+    pagination: {
+        pageNumber: number;
+        pageSize: number;
+        hasMore: boolean;
+    };
 }

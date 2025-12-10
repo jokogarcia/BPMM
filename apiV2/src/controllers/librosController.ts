@@ -45,10 +45,7 @@ export const getCategories = async (req: Request, res: Response) => {
     try {
         const categorias: string[] = await getCategorias();
         
-        res.status(200).json({
-            success: true,
-            data: categorias.filter(cat => cat && cat.trim() !== '')
-        });
+        res.status(200).json(categorias.filter(cat => cat && cat.trim() !== ''));
     } catch (error) {
         console.error('Error fetching categories:', error);
         res.status(500).json({ 

@@ -58,9 +58,9 @@ export class CatalogoComponent implements OnInit, AfterViewInit {
     this.booksService.searchByFilters(this.currentAuthor,this.currentTitle, this.selectedCategory, this.currentPage,this.currentPageSize).subscribe(
       
       x=>{
-        this.dataSource = new MatTableDataSource(x.results);
+        this.dataSource = new MatTableDataSource(x.data);
         this.dataSource.sort = this.sort;
-        this.totalBookCount=x.totalCount;
+        this.totalBookCount=x.count;
       }
     );
   }
