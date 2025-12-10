@@ -10,11 +10,33 @@ const autoresRiojanosRows = autoresRiojanos.Sheets[autoresRiojanos.SheetNames[0]
 
 const nd1 = novelas.Sheets[novelas.SheetNames[0]];
 function getMaxRow(data: WorkSheet) {
-    let row = 1;
-    while (data[`A${row}`]?.v) {
-        row++;
+    // Use the worksheet's range property to get the actual range
+    if (data['!ref']) {
+        const range = data['!ref'].split(':');
+        if (range.length === 2) {
+            // Extract row number from the end cell reference (e.g., "A1:Z100" -> 100)
+            const endCell = range[1];
+            const rowMatch = endCell.match(/(\d+)$/);
+            if (rowMatch) {
+                return parseInt(rowMatch[1]);
+            }
+        }
     }
-    return row;
+    
+    // Fallback: scan all cell references to find the highest row number
+    let maxRow = 0;
+    Object.keys(data).forEach(cellRef => {
+        if (cellRef.startsWith('!')) return; // Skip metadata properties
+        const rowMatch = cellRef.match(/(\d+)$/);
+        if (rowMatch) {
+            const row = parseInt(rowMatch[1]);
+            if (row > maxRow) {
+                maxRow = row;
+            }
+        }
+    });
+    
+    return maxRow;
 }
 function getRowNovela(row: number, data: WorkSheet) {
     if (row < 6) return null;
