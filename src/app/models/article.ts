@@ -1,10 +1,10 @@
-export class Article {
-    public handle:string;
-    public title:string;
-    public templateId?:string;
-    public mainImageUrl?:string;
-    public htmlContent:string;
-    public articleId:number;
-    public author:string;
-    public subtitle:string;
+export interface Article {
+    handle:string;
+    title:string;
+    templateId?:string;
+    mainImageUrl?:string;
+    htmlContent:string;
+    articleId:number;
+    author:string;
+    subtitle:string;
 }

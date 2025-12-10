@@ -1,4 +1,4 @@
-export class Book{
+export interface Book{
     title:string;
     author:string;
     tags:string[];

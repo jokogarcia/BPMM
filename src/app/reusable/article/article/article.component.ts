@@ -10,8 +10,8 @@ import { DomSanitizer } from '@angular/platform-browser'
   styleUrls: ['./article.component.scss']
 })
 export class ArticleComponent implements OnInit {
-  public article:Article;
-  private articleHandle:string;
+  public article:Article|null=null;
+  private articleHandle:string="";
   content: any;
   constructor(private articlesService:ArticlesService, 
     private sanitized: DomSanitizer) {

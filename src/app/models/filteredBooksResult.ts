@@ -1,6 +1,6 @@
 import {Book} from '../models/book'
 
-export class FilteredBooksResult{
+export interface FilteredBooksResult{
     totalCount:number;
     results:Book[];
 }

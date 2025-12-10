@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Article } from 'src/app/models/article';
-
+import { Article } from '../../models/article';
 @Component({
   selector: 'app-photo-article-view',
   templateUrl: './photo-article-view.component.html',
@@ -8,7 +7,7 @@ import { Article } from 'src/app/models/article';
 })
 export class PhotoArticleViewComponent implements OnInit {
 
-  @Input() article:Article;
+  @Input() article!:Article;
   constructor() { }
 
   ngOnInit(): void {

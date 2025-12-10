@@ -15,28 +15,28 @@ export class BooksService {
 
   constructor(private httpClient: HttpClient) { }
   
-  readAll(): Observable<any> {
-    return this.httpClient.get(baseURL);
+  readAll(): Observable<Book[]> {
+    return this.httpClient.get<Book[]>(baseURL);
   }
 
-  read(id): Observable<any> {
-    return this.httpClient.get(`${baseURL}/${id}`);
+  read(id: string): Observable<Book> {
+    return this.httpClient.get<Book>(`${baseURL}/${id}`);
   }
 
-  create(data): Observable<any> {
-    return this.httpClient.post(baseURL, data);
+  create(data: Book): Observable<Book> {
+    return this.httpClient.post<Book>(baseURL, data);
   }
 
-  update(data): Observable<any> {
-    return this.httpClient.put(`${baseURL}`, data);
+  update(data: Book): Observable<Book> {
+    return this.httpClient.put<Book>(`${baseURL}`, data);
   }
 
-  delete(id): Observable<any> {
+  delete(id: string): Observable<any> {
     return this.httpClient.delete(`${baseURL}/${id}`);
   }
 
-  searchByTags(tags): Observable<any> {
-    return this.httpClient.get(`${baseURL}/tags/${tags}`);
+  searchByTags(tags: string): Observable<Book[]> {
+    return this.httpClient.get<Book[]>(`${baseURL}/tags/${tags}`);
   }
   searchByFilters(author:string, title:string, categories:string, pageNumber:number=0, pageSize:number=25): Observable<FilteredBooksResult> {
       let url =`${baseURL}/filtered?pageNumber=${pageNumber}&pageSize=${pageSize}`;
