@@ -14,7 +14,7 @@ mkdir -p ./dist
 
 # Copy the built application from container to host
 echo "Copying built files from container to host..."
-docker cp $CONTAINER_ID:/app/dist/bibmamo/ ./dist
+docker cp $CONTAINER_ID:/app/dist/bibmamo/browser ./dist/bibmamo
 
 # Clean up the temporary container
 echo "Cleaning up temporary container..."
