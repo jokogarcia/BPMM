@@ -59,6 +59,7 @@ export class CatalogoComponent implements OnInit, AfterViewInit {
       
       x=>{
         this.dataSource = new MatTableDataSource(x.data);
+        debugger;
         this.dataSource.sort = this.sort;
         this.totalBookCount=x.count;
       }
