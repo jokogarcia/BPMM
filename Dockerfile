@@ -1,5 +1,6 @@
 FROM node:22-alpine
-
+# Install angular CLI globally
+RUN npm install -g @angular/cli
 WORKDIR /app
 
 COPY package.json .
@@ -11,7 +12,7 @@ RUN npm ci
 COPY . .
 
 # Build the application
-RUN npm run build
+RUN ng build --configuration production
 
 # Install http-server to serve static files
 RUN npm install -g http-server
