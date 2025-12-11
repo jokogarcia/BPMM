@@ -39,7 +39,7 @@ function getMaxRow(data: WorkSheet) {
     return maxRow;
 }
 function getRowNovela(row: number, data: WorkSheet) {
-    if (row < 6) return null;
+    if (row < 4) return null;
     const cant = data[`A${row}`]?.v;
     const autor = data[`B${row}`]?.v;
     const titulo = data[`C${row}`]?.v;
@@ -55,7 +55,7 @@ function getRowNovela(row: number, data: WorkSheet) {
     return { cant, autor, titulo, libri, editorial, ejemplares, paginas, edicion, inventario, isbn, observaciones };
 }
 function getRowAutorRiojano(row: number, data: WorkSheet) {
-    if (row < 4) return null;
+    if (row < 6) return null;
     const orden = data[`A${row}`]?.v;
     const autor = data[`B${row}`]?.v;
     const no = data[`C${row}`]?.v;
