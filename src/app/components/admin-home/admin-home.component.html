@@ -1,1 +1,35 @@
-<p>admin-home works!</p>
+<h1>Administración</h1>
+<h2>Agregar libro al catálogo</h2>
+<form (ngSubmit)="addBook()">
+  <div>
+    <label for="titulo">Título:</label>
+    <input id="titulo" [(ngModel)]="newBook.titulo" name="titulo" required>
+  </div>
+  <div>
+    <label for="autor">Autor:</label>
+    <input id="autor" [(ngModel)]="newBook.autor" name="autor" required>
+  </div>
+  <div>
+    <label for="editorial">Editorial:</label>
+    <input id="editorial" [(ngModel)]="newBook.editorial" name="editorial" required>
+  </div>
+  <div>
+    <label for="ejemplares">Ejemplares:</label>
+    <input id="ejemplares" type="number" [(ngModel)]="newBook.ejemplares" name="ejemplares" required value="1">
+  </div>
+<div>
+    <label for="paginas">Páginas:</label>
+    <input id="paginas" type="number" [(ngModel)]="newBook.paginas" name="paginas" required value="1">
+  </div>
+  <div>
+    <label for="isbn">ISBN:</label>
+    <input id="isbn" [(ngModel)]="newBook.isbn" name="isbn" required>
+  </div>
+  <div>
+    <label for="category">Categoría:</label>
+    <input id="category" [(ngModel)]="newBook.categoria" name="categoria" required>
+  </div>
+
+  <button type="submit">Agregar Libro</button>
+  <button type="button" (click)="scanBarCode()">Escanear Código de Barras</button>
+</form>
